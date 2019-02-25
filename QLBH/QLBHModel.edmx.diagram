@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="864ca74577b6415991afc38167d51994" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="cf9d587e890a4935a1c8d4f161eec91c" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="QLBHModel.KH" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QLBHModel.NCC" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLBHModel.NV" Width="2.125" PointX="0.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLBHModel.NV" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QLBHModel.Phieu" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QLBHModel.PhieuGiao" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QLBHModel.PhieuHD" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />

@@ -47,17 +47,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -122,12 +120,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="admin\css\admin.css" />
+    <Content Include="admin\Default.aspx" />
+    <Content Include="admin\HoaDon.aspx" />
+    <Content Include="admin\js\admin.js" />
+    <Content Include="admin\SanPham.aspx" />
+    <Content Include="admin\SanPhamLoai.aspx" />
+    <Content Include="admin\SanPhamNhom.aspx" />
+    <Content Include="Combo.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\home.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -140,24 +147,24 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EntityDeploy Include="QLBH.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>QLBH.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="QLBH.edmx.diagram">
-      <DependentUpon>QLBH.edmx</DependentUpon>
-    </Content>
     <Content Include="admin\Site.Master" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="QLBH.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QLBH.edmx</DependentUpon>
-      <LastGenOutput>QLBH.Context.cs</LastGenOutput>
+    <EntityDeploy Include="QLBHModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>QLBHModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="QLBHModel.edmx.diagram">
+      <DependentUpon>QLBHModel.edmx</DependentUpon>
     </Content>
-    <Content Include="QLBH.tt">
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="QLBHModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QLBH.edmx</DependentUpon>
-      <LastGenOutput>QLBH.cs</LastGenOutput>
+      <DependentUpon>QLBHModel.edmx</DependentUpon>
+      <LastGenOutput>QLBHModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="QLBHModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QLBHModel.edmx</DependentUpon>
+      <LastGenOutput>QLBHModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -196,6 +203,41 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\HoaDon.aspx.cs">
+      <DependentUpon>HoaDon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\HoaDon.aspx.designer.cs">
+      <DependentUpon>HoaDon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\SanPham.aspx.cs">
+      <DependentUpon>SanPham.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\SanPham.aspx.designer.cs">
+      <DependentUpon>SanPham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\SanPhamLoai.aspx.cs">
+      <DependentUpon>SanPhamLoai.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\SanPhamLoai.aspx.designer.cs">
+      <DependentUpon>SanPhamLoai.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\SanPhamNhom.aspx.cs">
+      <DependentUpon>SanPhamNhom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\SanPhamNhom.aspx.designer.cs">
+      <DependentUpon>SanPhamNhom.aspx</DependentUpon>
+    </Compile>
     <Compile Include="admin\Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -212,6 +254,13 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Combo.aspx.cs">
+      <DependentUpon>Combo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Combo.aspx.designer.cs">
+      <DependentUpon>Combo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -230,47 +279,47 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="KH.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NCC.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NV.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Phieu.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PhieuGiao.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PhieuHD.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PhieuHDChiTiet.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PhieuNhap.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PhieuNhapChiTiet.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QLBH.Context.cs">
+    <Compile Include="QLBHModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLBH.Context.tt</DependentUpon>
+      <DependentUpon>QLBHModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="QLBH.cs">
+    <Compile Include="QLBHModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="QLBH.Designer.cs">
+    <Compile Include="QLBHModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLBH.edmx</DependentUpon>
+      <DependentUpon>QLBHModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -287,16 +336,16 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="SP.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SPLoai.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SPNhom.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
-      <DependentUpon>QLBH.tt</DependentUpon>
+      <DependentUpon>QLBHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
