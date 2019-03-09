@@ -14,14 +14,13 @@
             <asp:BoundField DataField="TenNhomSP" HeaderText="TenNhomSP" SortExpression="TenNhomSP" />
         </Columns>
     </asp:GridView>
-    <asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateRows="False" CssClass="table " DataKeyNames="MaNhomSP" DataSourceID="EntityDataSource1" DefaultMode="Insert" Height="50px" Width="125px">
+    <asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateInsertButton="True" AutoGenerateRows="False" DataKeyNames="MaNhomSP" DataSourceID="EntityDataSource1" DefaultMode="Insert" Height="50px" Width="158px" OnItemInserted="DetailsView1_ItemInserted">
         <Fields>
-            <asp:BoundField DataField="MaNhomSP" HeaderText="MaNhomSP" ReadOnly="True" SortExpression="MaNhomSP" />
+            <asp:BoundField DataField="MaNhomSP" InsertVisible="False" HeaderText="MaNhomSP" ReadOnly="True" SortExpression="MaNhomSP" />
             <asp:BoundField DataField="TenNhomSP" HeaderText="TenNhomSP" SortExpression="TenNhomSP" />
-            <asp:CommandField ShowInsertButton="True" />
         </Fields>
     </asp:DetailsView>
-    <asp:EntityDataSource ID="EntityDataSource1" runat="server" ConnectionString="name=QLBHDBContext" DefaultContainerName="QLBHDBContext" EnableFlattening="False" EntitySetName="SPNhoms" Include="SPLoais" EnableInsert="True" EnableUpdate="True">
+    <asp:EntityDataSource ID="EntityDataSource1" runat="server" ConnectionString="name=QLBHDBContext" DefaultContainerName="QLBHDBContext" EnableFlattening="False" EntitySetName="SPNhoms" Include="SPLoais" EnableInsert="True" EnableUpdate="True" EnableDelete="True">
     </asp:EntityDataSource>
 
 

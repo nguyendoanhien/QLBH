@@ -7,15 +7,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - My ASP.NET Application</title>
-
-    <script src="/Scripts/jquery-3.3.1.js"></script>
-
-    <script src="/Scripts/bootstrap.js"></script>
-    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <script src="/Frameworks/jquery/jquery-3.3.1.min.js"></script>
+    <script src="/Frameworks/bootstraps/js/bootstrap.js"></script>
+    <link href="/Frameworks/bootstraps/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/home.css" rel="stylesheet" />
 </head>
 <body>
-    <form runat="server">
+    <form runat="server" action="Combo.aspx" onsubmit="return false;">
+        <div class="wait overlay">
+            <div class="loader"></div>
+        </div>
         <div class="container">
             <div class="row">
                 <nav class="navbar navbar-default">
@@ -26,25 +27,55 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="<%=HttpContext.Current.Request.Url.Authority %>">Logo</a>
+                        <a class="navbar-brand" href="<%="/" %>">Logo</a>
                     </div>
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a class="dropdown-toggle" data-toggle="dropdown">Sản phẩm
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Linh kiện</a></li>
-                                    <li><a href="#">Phụ kiện</a></li>
 
+                    <div class="collapse navbar-collapse" id="myNavbar">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>Giỏ hàng<span class="badge">0</span></a>
+                                <div class="dropdown-menu" style="width: 400px;">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-md-3">Sl.No</div>
+                                                <div class="col-md-3">Product Image</div>
+                                                <div class="col-md-3">Product Name</div>
+                                                <div class="col-md-3">Price in $.</div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div id="cart_product">
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="http://localhost:50680/Combo">Mua COMBO</a></li>
+                            <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>SignIn</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div style="width: 300px;">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Login</div>
+                                                <div class="panel-heading">
+
+                                                    <label for="email">Email</label>
+                                                    <input type="email" class="form-control" name="email" id="email" required />
+                                                    <label for="email">Password</label>
+                                                    <input type="password" class="form-control" name="password" id="password" required />
+                                                    <p>
+                                                        <br />
+                                                    </p>
+                                                    <a href="#" style="color: white; list-style: none;">Forgotten Password</a><input type="submit" class="btn btn-success" style="float: right;">
+                                                </div>
+                                                <div class="panel-footer" id="e_msg"></div>
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </li>
-
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="http://localhost:50680/Combo">Mua COMBO</a></li>
-                           
                         </ul>
                     </div>
 
@@ -56,16 +87,23 @@
 
                 </div>
             </div>
-            
-            <div class="row">
-                <asp:ContentPlaceHolder ID="MainContent" runat="server">
-                </asp:ContentPlaceHolder>
-                <hr />
-                <footer>
-                    <p>&copy; <%: DateTime.Now.Year %> - Quản lý bán hàng </p>
-                </footer>
-            </div>
 
+            <div class="row">
+                <div class="col-md-2 col-xs-12">
+                    <div id="get_category">
+                    </div>
+                    <div id="get_brand">
+                    </div>
+                    <div id="get_appstatus">
+                    </div>
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+            </div>
+            <div class="row panel-footer">© 2016</div>
         </div>
 
 
@@ -110,5 +148,6 @@
 
 
     </form>
+    <script src="/js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="DTO">
+      <HintPath>D:\Hien\School\Xay dung phan mem theo mo hinh phan lop\QLBH_Win\QLBH_Project\DTO\bin\Debug\DTO.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
