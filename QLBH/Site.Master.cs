@@ -5,26 +5,19 @@ namespace QLBH
 {
     public partial class SiteMaster : MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-           
-        }
-        private void GetCartItem()
-        {
-
-
-        }
-
         private void Common()
         {
-            if(Session["uid"]==null)
+            if (Session["uid"] == null)
             {
-
             }
-            else
-            {
+        }
 
-            }
+        private void GetCartItem()
+        {
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
         }
     }
 }

@@ -10,6 +10,6 @@
 namespace QLBH {
     
     
-    public partial class _Default {
+    public partial class GioHang {
     }
 }

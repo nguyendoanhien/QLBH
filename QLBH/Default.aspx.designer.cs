@@ -10,7 +10,7 @@
 namespace QLBH {
     
     
-    public partial class _Default {
+    public partial class Default {
         
         /// <summary>
         /// get_product control.

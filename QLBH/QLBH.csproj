@@ -141,7 +141,6 @@
     <Content Include="admin\SanPham.aspx" />
     <Content Include="admin\SanPhamLoai.aspx" />
     <Content Include="admin\SanPhamNhom.aspx" />
-    <Content Include="Combo.aspx" />
     <Content Include="css\home.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -1601,6 +1600,7 @@
     <Content Include="Frameworks\jquery\jquery-3.3.1.min.js" />
     <Content Include="Frameworks\jquery\jquery-3.3.1.slim.min.js" />
     <Content Include="Frameworks\jquery\jquery.mobile-1.4.5.js" />
+    <Content Include="GioHang.aspx" />
     <Content Include="Global.asax" />
     <Content Include="admin\Site.Master" />
     <Content Include="js\main.js" />
@@ -1657,13 +1657,6 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Combo.aspx.cs">
-      <DependentUpon>Combo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Combo.aspx.designer.cs">
-      <DependentUpon>Combo.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1671,9 +1664,17 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GioHang.aspx.cs">
+      <DependentUpon>GioHang.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GioHang.aspx.designer.cs">
+      <DependentUpon>GioHang.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelpfulClasses\ActionClass.cs" />
     <Compile Include="HelpfulClasses\FilterClass.cs" />
     <Compile Include="HelpfulClasses\SecurityHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

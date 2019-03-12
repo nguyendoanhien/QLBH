@@ -1,52 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using BUS;
 using DTO;
-using QLBH.HelpfulClasses;
 using MyUltilities;
-using System.Web.UI.HtmlControls;
-using System.Security.Cryptography;
+using QLBH.HelpfulClasses;
 
 namespace QLBH
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
-        private static string truyCapTatCa;
-        private static string truyCapHienTai;
-        private static string diaChiIp;
-        private static Cart CART;
+        private static string _truyCapTatCa;
+        private static string _truyCapHienTai;
+        private static List<Sp> _spList;
+        private static int _productOnPage;
         public string LtrPages;
-        private static List<Sp> spList;
-        private static int productOnPage;
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (!IsPostBack)
-            {
 
-                productOnPage = 9;
-                truyCapTatCa = Application["TruyCapTatCa"].ToString();
-                truyCapHienTai = Application["TruyCapHienTai"].ToString();
-                CART = Cart.GetCart;
+        [WebMethod]
+        public static string AddToCart(FilterClass fc)
+        {
+            if (HttpContext.Current.Session["uid"] == null)
+            {
+                var gioHang = GioHang_BUS.GetAll()
+                    .FirstOrDefault(m => m.DiaChiIp == Cart.IpAddress && m.MaSp == fc.ProductId);
+
+                if (gioHang != null)
+                    return @"<div class='alert alert-warning'>
+							<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+							<b>Sản phẩm đã tồn tại trong giỏ hàng !</b>
+					</div>";
+
+                if (GioHang_BUS.Insert(new DTO.GioHang
+                        {MaSp = fc.ProductId, DiaChiIp = Cart.IpAddress, SoLuong = 1}) != null)
+                    return @"<div class='alert alert-success'>
+						<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						<b>Sản phẩm đã được thêm !</b>
+					</div>";
             }
 
+            return "OK";
+        }
+
+        
+      
+
+        [WebMethod]
+        public static string CountItem()
+        {
+            if (HttpContext.Current.Session["uid"] == null)
+                return GioHang_BUS.GetAll().Where(m => m.DiaChiIp == Cart.IpAddress).ToList().Count.ToString();
+            return GioHang_BUS.GetAll().Where(m => m.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString()))
+                .ToList().Count.ToString();
+        }
+
+        [WebMethod]
+        public static string GetAppStatus()
+        {
+            var sb = new StringBuilder();
+            sb.Append(string.Format(@"Tổng truy cập:{0}</br>
+                                      Tổng truy cập hiện tại:{1}</br>
+                                      Địa chỉ ip:{2}",
+                _truyCapTatCa,
+                _truyCapHienTai,
+                Cart.IpAddress));
+            return sb.ToString();
         }
 
         [WebMethod]
         public static string GetBrands()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append(@"<div class='nav nav-pills nav-stacked'>
                       <li class='active'><a href = '#' ><h4> Thương hiệu </h4></a></li>");
-            foreach (Ncc ncc in Ncc_BUS.GetAll())
-            {
-                sb.Append(String.Format("<li><a href='#' class='selectBrand' cid='{0}'>{1}</a></li>", ncc.MaNcc, ncc.TenNcc));
-            }
+            foreach (var ncc in Ncc_BUS.GetAll())
+                sb.Append($"<li><a href='#' class='selectBrand' cid='{ncc.MaNcc}'>{ncc.TenNcc}</a></li>");
 
             sb.Append("</div>");
 
@@ -54,45 +86,162 @@ namespace QLBH
         }
 
         [WebMethod]
-        public static string ProductsClick(FilterClass fc)
+        public static string GetCartItems(FilterClass fc, ActionClass ac)
         {
-            StringBuilder sb = new StringBuilder();
-            int p_id = fc.Product_id;
-            string ip_add = Cart.IpAddress;
-            if (Cart.IsSession(HttpContext.Current.Session["CartSession"]))
+            var sb = new StringBuilder();
+            var result = HttpContext.Current.Session["uid"] == null
+                ? from p in Sp_BUS.GetAll()
+                join g in GioHang_BUS.GetAll()
+                    on p.MaSp equals g.MaSp
+                where g.DiaChiIp == Cart.IpAddress
+                select new
+                {
+                    MaSanPham = p.MaSp,
+                    TenSanPham = p.TenSp,
+                    GiaSanPham = p.DonGia,
+                    HinhSanPham = p.HinhSp,
+                    g.MaGioHang,
+                    g.SoLuong,
+                    g.DiaChiIp,
+                    g.MaKh
+                }
+                : GioHang_BUS.GetAll().Join(Sp_BUS.GetAll(), c => c.MaSp, p => p.MaSp,
+                    (gioHang, sanPham) => new
+                    {
+                        MaSanPham = sanPham.MaSp,
+                        TenSanPham = sanPham.TenSp,
+                        GiaSanPham = sanPham.DonGia,
+                        HinhSanPham = sanPham.HinhSp,
+                        gioHang.MaGioHang,
+                        gioHang.SoLuong,
+                        gioHang.DiaChiIp,
+                        gioHang.MaKh
+                    }).Where(m => m.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString()));
+
+            var enumerable = result.ToList();
+            if (ac.LaySanPhamGioHang)
             {
-                sb.Append("Your session id is " + ip_add);
+                var n = 0;
+                foreach (var x in enumerable)
+                    sb.Append($@"
+                    <div class='row'>
+                        <div class='col-md-3'>{++n}</div>
+						<div class='col-md-3'><img class='img-responsive' src='product_images/{x.HinhSanPham}' /></div>
+						<div class='col-md-3'>{x.TenSanPham}</div>
+						<div class='col-md-3'>{x.GiaSanPham}</div>
+					</div>
+                    ");
+                sb.Append(
+                    "<a style='float:right; ' href='/GioHang' class='btn btn-warning'>Edit&nbsp;&nbsp;<span class='glyphicon glyphicon-edit'></span></a>");
             }
+
+            if (ac.LaySanPhamGioHangCheckOut)
+            {
+                
+                foreach (var x in enumerable)
+                    sb.Append($@"<div class='row'>
+                        <div class='col-md-2'>
+                        <div class='btn-group'>
+                        <a href = '#' remove_id='{x.MaSanPham}' class='btn btn-danger remove'><span class='glyphicon glyphicon-trash'></span></a>
+                        <a href = '#' update_id='{x.MaSanPham}' class='btn btn-primary update'><span class='glyphicon glyphicon-ok-sign'></span></a>
+                        </div>
+                        </div>
+                        <input type = 'hidden' name='product_id[]' value='{x.MaSanPham}'/>
+                        <input type = 'hidden' name='' value='{x.MaGioHang}'/>
+                        <div class='col-md-2'><img class='img-responsive' src='product_images/{x.HinhSanPham}'></div>
+                        <div class='col-md-2'>{x.TenSanPham}</div>
+                        <div class='col-md-2'><input type = 'text' class='form-control qty' value='{x.SoLuong}' ></div>
+                        <div class='col-md-2'><input type = 'text' class='form-control price' value='{x.GiaSanPham}' readonly='readonly'></div>
+                        <div class='col-md-2'><input type = 'text' class='form-control total' value='{x.GiaSanPham}' readonly='readonly'></div>
+                        </div>");
+                sb.Append(@"<div class='row'>
+                    <div class='col-md-8'></div>
+                    <div class='col-md-4'>
+                    <b class='net_total' style='font-size:20px;'> </b>
+                    </div>");
+
+                if (HttpContext.Current.Session["uid"] == null)
+                {
+                    sb.Append(
+                        "<input type='submit' style='float:right; ' name='login_user_with_product' class='btn btn-info btn - lg' value='Ready to Checkout' >");
+                }
+                else
+                {
+                    sb.Append(@"
+<input type='hidden' name='cmd' value='_cart'>
+                        < input type = 'hidden' name = 'business' value = 'shoppingcart@khanstore.com' >
+
+                        < input type = 'hidden' name = 'upload' value = '1' > ");
+
+                    var collections = from p in Sp_BUS.GetAll()
+                        join g in GioHang_BUS.GetAll()
+                            on p.MaSp equals g.MaSp
+                        where g.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString())
+                        select new
+                        {
+                            MaSanPham = p.MaSp,
+                            TenSanPham = p.TenSp,
+                            GiaSanPham = p.DonGia,
+                            HinhSanPham = p.HinhSp,
+                            g.MaGioHang,
+                            g.SoLuong,
+                            g.DiaChiIp,
+                            g.MaKh
+                        };
+                    var i = 0;
+                    foreach (var x in collections)
+                    {
+                        i++;
+                        sb.Append($@"
+<input type='hidden' name='item_name_{i}' value='{x.TenSanPham}'>
+                            < input type = 'hidden' name = 'item_number_{i}' value = '{i}' >
+
+                            < input type = 'hidden' name = 'amount_{i}' value = '{x.GiaSanPham}' >
+
+                            < input type = 'hidden' name = 'quantity_{i}' value = '{x.SoLuong}' > ");
+                    }
+
+                    sb.Append(
+                        $@"<input type='hidden' name='return ' value='http://localhost/project1/payment_success.php'/>
+
+                        < input type = 'hidden' name = 'notify_url' value = 'http://localhost/project1/payment_success.php' >
+     
+                        < input type = 'hidden' name = 'cancel_return' value = 'http://localhost/project1/cancel.php' />
+          
+                        < input type = 'hidden' name = 'currency_code' value = 'USD' />
+               
+                        < input type = 'hidden' name = 'custom' value = '{HttpContext.Current.Session["uid"]}' />
+                      
+                        < input style = 'float:right;margin-right:80px;' type = 'image' name = 'submit'
+
+                    src = 'https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png' alt = 'PayPal Checkout'
+
+                    alt = 'PayPal - The safer, easier way to pay online' > ");
+                }
+            }
+
+
             return sb.ToString();
         }
 
         [WebMethod]
-        public static string AddToCart(FilterClass fc)
-        {
-            return null;
-        }
-        [WebMethod]
         public static string GetLeftMenus()
         {
-            StringBuilder sbNhom = new StringBuilder();
+            var sbNhom = new StringBuilder();
 
-            foreach (SpNhom spNhom in SpNhom_BUS.GetAll())
+            foreach (var spNhom in SpNhom_BUS.GetAll())
             {
-                StringBuilder sbLoai = new StringBuilder();
+                var sbLoai = new StringBuilder();
 
-                foreach (SpLoai spLoai in SpLoai_BUS.GetAll().Where(spLoai => spLoai.MaNhomSp == spNhom.MaNhomSp))
-                {
-                    sbLoai.Append(String.Format(@"<tr>
+                foreach (var spLoai in SpLoai_BUS.GetAll().Where(spLoai => spLoai.MaNhomSp == spNhom.MaNhomSp))
+                    sbLoai.Append(string.Format(@"<tr>
                                                 <td>
                                                     <span class='text-primary'></span><a class='category' cid='{0}' href='{1}'>{2}</a>
                                                 </td>
                                             </tr>", spLoai.MaLoaiSp, "#", spLoai.TenLoaiSp));
-                }
 
 
-
-
-                sbNhom.Append(String.Format(@"<div class='panel-group' id='accordion'>
+                sbNhom.Append(string.Format(@"<div class='panel-group' id='accordion'>
                             <div class='panel panel-default'>
                                 <div class='panel-heading'>
                                     <h4 class='panel-title'>
@@ -108,95 +257,92 @@ namespace QLBH
                                 </div>
                             </div>
 
-                        </div> ", spNhom.MaNhomSp, spNhom.TenNhomSp, sbLoai.ToString()));
-
-
+                        </div> ", spNhom.MaNhomSp, spNhom.TenNhomSp, sbLoai));
             }
-
 
 
             return sbNhom.ToString();
         }
-        [WebMethod]
-        public static string GetAppStatus()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(String.Format(@"Tổng truy cập:{0}</br>
-                                      Tổng truy cập hiện tại:{1}</br>
-                                      Địa chỉ ip:{2}",
-                                     truyCapTatCa,
-                                     truyCapHienTai,
-                                     Cart.IpAddress));
-            return sb.ToString();
-        }
+
         [WebMethod]
         public static string GetPages()
         {
-            StringBuilder sbTrang = new StringBuilder();
-            decimal kq = (spList.Count / productOnPage) + 1;
-            decimal pageNo = Math.Ceiling(kq);
+            var sbTrang = new StringBuilder();
+            decimal kq = _spList.Count / (_productOnPage == 0 ? 1 : _productOnPage) + 1;
+            var pageNo = Math.Ceiling(kq);
             for (var i = 1; i <= pageNo; i++)
-            {
-                sbTrang.Append(String.Format(@"<li><a href='#' page='{0}' id='page'>{0}</a></li>", i));
-            }
+                sbTrang.Append(string.Format(@"<li><a href='#' page='{0}' id='page'>{0}</a></li>", i));
             return sbTrang.ToString();
-
         }
-
 
         [WebMethod]
         public static string GetProducts(FilterClass fc)
         {
-            int limit = 9;
-            int start = 0;
+            var sb = new StringBuilder();
+            _spList = Sp_BUS.GetAll();
+            if (!string.IsNullOrEmpty(fc.CatId.ToString()))
+                _spList = _spList.Where(sp => sp.MaLoaiSp == fc.CatId).ToList();
+            if (!string.IsNullOrEmpty(fc.BrandId.ToString()))
+                _spList = _spList.Where(sp => sp.MaNcc == fc.BrandId).ToList();
+            if (!string.IsNullOrEmpty(fc.SearchKey))
+                _spList = _spList.Where(sp => sp.TenSp.Contains(fc.SearchKey)).ToList();
+            var spListPaged = _spList.Skip(_productOnPage * ((fc.PageId ?? 1) - 1)).Take(_productOnPage).ToList();
 
 
-            StringBuilder sb = new StringBuilder();
-            spList = Sp_BUS.GetAll();
-            if (!String.IsNullOrEmpty(fc.Cat_id.ToString()))
-                spList = spList.Where(sp => sp.MaLoaiSp == fc.Cat_id).ToList();
-            if (!String.IsNullOrEmpty(fc.Brand_id.ToString()))
-                spList = spList.Where(sp => sp.MaNcc == fc.Brand_id).ToList();
-            if (!String.IsNullOrEmpty(fc.SearchKey))
-                spList = spList.Where(sp => sp.TenSp.Contains(fc.SearchKey)).ToList();
-            List<Sp> spListPaged = spList.Skip(productOnPage * ((fc.Page_id ?? 1) - 1)).Take(productOnPage).ToList();
-
-
-
-            foreach (Sp sp in spListPaged)
-            {
-                sb.Append(String.Format(@"
+            foreach (var sp in spListPaged)
+                sb.Append($@"
             <div class='col-md-4'>
 							<div class='panel panel-info'>
-								<div class='panel-heading'>{0}</div>
+								<div class='panel-heading'>{sp.TenSp}</div>
 								<div class='panel-body'>
-									<img src='product_images/{1}' style='width:160px; height:250px;'/>
+									<img src='product_images/{sp.HinhSp}' style='width:160px; height:250px;'/>
 								</div>
-								<div class='panel-heading'>{2}
-									<button pid='{3}' style='float:right;' id='product' class='btn btn-danger btn-xs'>Thêm giở hàng</button>
+								<div class='panel-heading'>{sp.DonGia}
+									<button pid='{sp.MaSp}' style='float:right;' id='product' class='btn btn-danger btn-xs'>Thêm giở hàng</button>
 								</div>
 							</div>
 						</div>
 
-            ", sp.TenSp, sp.HinhSp, sp.DonGia, sp.MaSp));
-            }
+            ");
 
 
-            return String.IsNullOrEmpty(sb.ToString()) ? "Không có sản phẩm" : sb.ToString();
-
+            return string.IsNullOrEmpty(sb.ToString()) ? "Không có sản phẩm" : sb.ToString();
         }
+
         [WebMethod]
         public static string Login(FilterClass fc)
         {
-            string email = SecurityHelper.ToLiteral(fc.Email);
+            var email = SecurityHelper.ToLiteral(fc.Email);
             string password;
-            using (MD5 md5Hash = MD5.Create())
+            using (var md5Hash = MD5.Create())
             {
                 password = SecurityHelper.GetMd5Hash(md5Hash, fc.Password);
+            }
+
+            var kh = Kh_BUS.GetAll().FirstOrDefault(m => m.Email == email && m.MatKhau == password);
+            if (kh != null)
+            {
+                HttpContext.Current.Session["MaKh"] = kh.MaKh;
+                HttpContext.Current.Session["TenKh"] = kh.TenKh;
             }
 
             return "";
         }
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                _productOnPage = 9;
+                _truyCapTatCa = Application["TruyCapTatCa"].ToString();
+                _truyCapHienTai = Application["TruyCapHienTai"].ToString();
+            }
+        }
+
+        [WebMethod]
+        public static string ProductsClick(FilterClass fc)
+        {
+            return AddToCart(fc);
+        }
     }
 }
