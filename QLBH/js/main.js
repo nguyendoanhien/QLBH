@@ -1,4 +1,4 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
 
     cat();
     brand();
@@ -13,7 +13,7 @@
             data: {},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 window.$("#get_appstatus").html(data.d);
             }
         });
@@ -22,13 +22,13 @@
 
     function cat() {
 
-        window.$.ajax({
+        $.ajax({
             type: "POST",
             url: "Default.aspx/GetLeftMenus",
             data: {},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
 
                 window.$("#get_category").html(data.d);
             }
@@ -43,7 +43,7 @@
             data: {},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
 
                 $("#get_brand").html(data.d);
             }
@@ -51,32 +51,34 @@
     }
 
     function product() {
+        debugger;
         var fcAjax = {};
         getProducts(fcAjax);
     }
 
     $("body").delegate(".category",
         "click",
-        function(event) {
+        function (event) {
 
             $("#get_product").html("<h3>Loading...</h3>");
             event.preventDefault();
             var cid = $(this).attr("cid");
             var fcAjax = {
-                cat_id: cid
+                catid: cid
             };
             getProducts(fcAjax);
         });
 
     function getProducts(fcAjax) {
+
         $(".overlay").show();
         $.ajax({
             type: "POST",
             url: "Default.aspx/GetProducts",
-            data: JSON.stringify({ fc: fcAjax }),
+            data: "{fc:" + JSON.stringify(fcAjax) + "}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 page();
                 $("[id$='get_product']").html(data.d);
                 $(".overlay").hide();
@@ -86,20 +88,20 @@
 
     $("body").delegate(".selectBrand",
         "click",
-        function(event) {
+        function (event) {
 
             $("#get_product").html("<h3>Loading...</h3>");
             event.preventDefault();
             var cid = $(this).attr("cid");
             var fcAjax = {
-                brand_id: cid
+                brandid: cid
             };
             getProducts(fcAjax);
 
         });
     $("body").delegate("#product",
         "click",
-        function(event) {
+        function (event) {
             var pid = $(this).attr("pid");
             event.preventDefault();
             $(".overlay").show();
@@ -113,7 +115,7 @@
                 data: JSON.stringify({ fc: fcAjax }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     countItem();
                     getCartItem();
@@ -123,7 +125,7 @@
             });
 
         });
-    $("[id$='search_btn']").click(function() {
+    $("[id$='search_btn']").click(function () {
         $("[id$='get_product']").html("<h3>Loading...</h3>");
         var keyword = $("#search").val();
         if (keyword !== "") {
@@ -135,52 +137,44 @@
         }
         return false;
     });
-    $("#login").on("submit",
-        function(event) {
+    $("#dangky").on("click",
+        function () {
+            window.location.href = "/DangKy";
+        });
+    $("#login").on("click",
+        function (event) {
+            debugger;
             event.preventDefault();
             var fcAjax = {
                 email: $("#email").val(),
                 password: $("#password").val()
             };
-            alert($("#login").serialize());
             $.ajax({
                 type: "POST",
                 url: "Default.aspx/Login",
                 data: JSON.stringify({ fc: fcAjax }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function() {
-                    aler(123);
+                success: function (data) {
+                    if (data.d === "Thành công") {
+                        window.location.href = "/Default";
+                    } else if (data.d === "Giỏ hàng") {
+                        window.location.href = "/GioHang";
+                    } else {
+                        $("#e_msg").html(data);
+                        $(".overlay").hide();
+                    }
                 }
             });
-            return false;
+
         });
     $("body").delegate("[id$='get_product_all']",
         "click",
-        function() {
+        function () {
             var fcAjax = {
             };
             getProducts(fcAjax);
 
-        });
-    $("#signup_form").on("submit",
-        function(event) {
-            event.preventDefault();
-            //$(".overlay").show();
-            $.ajax({
-                url: "register.php",
-                method: "POST",
-                data: $("#signup_form").serialize(),
-                success: function(data) {
-                    $(".overlay").hide();
-                    if (data === "register_success") {
-                        window.location.href = "cart.php";
-                    } else {
-                        $("#signup_msg").html(data);
-                    }
-
-                }
-            });
         });
     countItem();
 
@@ -192,7 +186,7 @@
             data: JSON.stringify({ fc: fcAjax }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 $(".badge").html(data.d);
             }
         });
@@ -202,14 +196,14 @@
 
     function getCartItem() {
         var fcAjax = {};
-        var acAjax = { LaySanPhamGioHang:true};
+        var acAjax = { LaySanPhamGioHang: true };
         $.ajax({
             type: "POST",
             url: "Default.aspx/GetCartItems",
-            data: JSON.stringify({ fc: fcAjax,ac:acAjax }),
+            data: JSON.stringify({ fc: fcAjax, ac: acAjax }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 $("#cart_product").html(data.d);
             }
         });
@@ -219,7 +213,7 @@
 
     $("body").delegate(".qty",
         "keyup",
-        function(event) {
+        function (event) {
             event.preventDefault();
             var row = $(this).parent().parent();
             var price = row.find(".price").val();
@@ -233,7 +227,7 @@
             var total = price * qty;
             row.find(".total").val(total);
             var net_total = 0;
-            $(".total").each(function() {
+            $(".total").each(function () {
                 net_total += ($(this).val() - 0);
             });
             $(".net_total").html("Total : $ " + net_total);
@@ -241,34 +235,46 @@
         });
     $("body").delegate(".remove",
         "click",
-        function() {
+        function () {
             var remove = $(this).parent().parent().parent();
             var removeId = remove.find(".remove").attr("remove_id");
+            var fcAjax = { removeid: removeId };
+
             $.ajax({
-                url: "action.php",
-                method: "POST",
-                data: { removeItemFromCart: 1, rid: removeId },
-                success: function(data) {
-                    $("#cart_msg").html(data);
+                type: "POST",
+                url: "GioHang.aspx/RemoveItemFromCart",
+                data: JSON.stringify({ fc: fcAjax }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#cart_msg").html(data.d);
                     checkOutDetails();
                 }
             });
+            return false;
+
         });
     $("body").delegate(".update",
         "click",
-        function() {
+        function () {
+            debugger;
             var update = $(this).parent().parent().parent();
             var updateId = update.find(".update").attr("update_id");
             var qty = update.find(".qty").val();
+            var fcAjax = { updateid: updateId, quantity: qty };
             $.ajax({
-                url: "action.php",
-                method: "POST",
-                data: { updateCartItem: 1, update_id: updateId, qty: qty },
-                success: function(data) {
-                    $("#cart_msg").html(data);
+                type: "POST",
+                url: "GioHang.aspx/UpdateItemFromCart",
+                data: JSON.stringify({ fc: fcAjax }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#cart_msg").html(data.d);
                     checkOutDetails();
                 }
             });
+
+            return false;
 
 
         });
@@ -278,14 +284,14 @@
     function checkOutDetails() {
         //$('.overlay').show();
         var fcAjax = {};
-        var acAjax = { LaySanPhamGioHangCheckOut:true};
+        var acAjax = { LaySanPhamGioHangCheckOut: true };
         $.ajax({
             type: "POST",
             url: "Default.aspx/GetCartItems",
-            data: JSON.stringify({ fc: fcAjax,ac:acAjax }),
+            data: JSON.stringify({ fc: fcAjax, ac: acAjax }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 $(".overlay").hide();
                 $("#cart_checkout").html(data.d);
                 net_total();
@@ -296,13 +302,13 @@
 
     function net_total() {
         var net_total = 0;
-        $(".qty").each(function() {
+        $(".qty").each(function () {
             var row = $(this).parent().parent();
             var price = row.find(".price").val();
             var total = price * $(this).val() - 0;
             row.find(".total").val(total);
         });
-        $(".total").each(function() {
+        $(".total").each(function () {
             net_total += ($(this).val() - 0);
         });
         $(".net_total").html("Total : $ " + net_total);
@@ -316,7 +322,7 @@
             data: {},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
 
                 $("[id$='pageno']").html(data.d);
             }
@@ -325,10 +331,10 @@
 
     $("body").delegate("#page",
         "click",
-        function() {
+        function () {
             var pn = $(this).attr("page");
             var fcAjax = {
-                page_id: pn
+                pageid: pn
             };
             $.ajax({
                 type: "POST",
@@ -336,7 +342,7 @@
                 data: JSON.stringify({ fc: fcAjax }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     $("[id$='get_product']").html(data.d);
                 }

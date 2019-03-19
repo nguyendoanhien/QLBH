@@ -10,7 +10,7 @@ using BUS;
 using DTO;
 using MyUltilities;
 using QLBH.HelpfulClasses;
-
+using System.Web.Script.Serialization;
 namespace QLBH
 {
     public partial class Default : Page
@@ -18,7 +18,7 @@ namespace QLBH
         private static string _truyCapTatCa;
         private static string _truyCapHienTai;
         private static List<Sp> _spList;
-        private static int _productOnPage;
+        private const int ProductOnPage = 9;
         public string LtrPages;
 
         [WebMethod]
@@ -26,7 +26,7 @@ namespace QLBH
         {
             if (HttpContext.Current.Session["uid"] == null)
             {
-                var gioHang = GioHang_BUS.GetAll()
+                var gioHang = GioHangBus.GetAll()
                     .FirstOrDefault(m => m.DiaChiIp == Cart.IpAddress && m.MaSp == fc.ProductId);
 
                 if (gioHang != null)
@@ -35,8 +35,31 @@ namespace QLBH
 							<b>Sản phẩm đã tồn tại trong giỏ hàng !</b>
 					</div>";
 
-                if (GioHang_BUS.Insert(new DTO.GioHang
-                        {MaSp = fc.ProductId, DiaChiIp = Cart.IpAddress, SoLuong = 1}) != null)
+                if (GioHangBus.Insert(new DTO.GioHang
+                { MaSp = fc.ProductId, DiaChiIp = Cart.IpAddress, SoLuong = 1 }) != null)
+                    return @"<div class='alert alert-success'>
+						<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+						<b>Sản phẩm đã được thêm !</b>
+					</div>";
+            }
+            else
+            {
+                var gioHang = GioHangBus.GetAll()
+                    .FirstOrDefault(m =>
+                        m.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString()) && m.MaSp == fc.ProductId);
+
+                if (gioHang != null)
+                    return @"<div class='alert alert-warning'>
+							<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+							<b>Sản phẩm đã tồn tại trong giỏ hàng !</b>
+					</div>";
+
+                if (GioHangBus.Insert(new DTO.GioHang
+                {
+                    MaSp = fc.ProductId,
+                    MaKh = int.Parse(HttpContext.Current.Session["uid"].ToString()),
+                    SoLuong = 1
+                }) != null)
                     return @"<div class='alert alert-success'>
 						<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 						<b>Sản phẩm đã được thêm !</b>
@@ -46,15 +69,13 @@ namespace QLBH
             return "OK";
         }
 
-        
-      
 
         [WebMethod]
         public static string CountItem()
         {
             if (HttpContext.Current.Session["uid"] == null)
-                return GioHang_BUS.GetAll().Where(m => m.DiaChiIp == Cart.IpAddress).ToList().Count.ToString();
-            return GioHang_BUS.GetAll().Where(m => m.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString()))
+                return GioHangBus.GetAll().Where(m => m.DiaChiIp == Cart.IpAddress).ToList().Count.ToString();
+            return GioHangBus.GetAll().Where(m => m.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString()))
                 .ToList().Count.ToString();
         }
 
@@ -62,12 +83,9 @@ namespace QLBH
         public static string GetAppStatus()
         {
             var sb = new StringBuilder();
-            sb.Append(string.Format(@"Tổng truy cập:{0}</br>
-                                      Tổng truy cập hiện tại:{1}</br>
-                                      Địa chỉ ip:{2}",
-                _truyCapTatCa,
-                _truyCapHienTai,
-                Cart.IpAddress));
+            sb.Append($@"Tổng truy cập:{_truyCapTatCa}</br>
+                                      Tổng truy cập hiện tại:{_truyCapHienTai}</br>
+                                      Địa chỉ ip:{Cart.IpAddress}");
             return sb.ToString();
         }
 
@@ -91,21 +109,21 @@ namespace QLBH
             var sb = new StringBuilder();
             var result = HttpContext.Current.Session["uid"] == null
                 ? from p in Sp_BUS.GetAll()
-                join g in GioHang_BUS.GetAll()
-                    on p.MaSp equals g.MaSp
-                where g.DiaChiIp == Cart.IpAddress
-                select new
-                {
-                    MaSanPham = p.MaSp,
-                    TenSanPham = p.TenSp,
-                    GiaSanPham = p.DonGia,
-                    HinhSanPham = p.HinhSp,
-                    g.MaGioHang,
-                    g.SoLuong,
-                    g.DiaChiIp,
-                    g.MaKh
-                }
-                : GioHang_BUS.GetAll().Join(Sp_BUS.GetAll(), c => c.MaSp, p => p.MaSp,
+                  join g in GioHangBus.GetAll()
+                      on p.MaSp equals g.MaSp
+                  where g.DiaChiIp == Cart.IpAddress
+                  select new
+                  {
+                      MaSanPham = p.MaSp,
+                      TenSanPham = p.TenSp,
+                      GiaSanPham = p.DonGia,
+                      HinhSanPham = p.HinhSp,
+                      g.MaGioHang,
+                      g.SoLuong,
+                      g.DiaChiIp,
+                      g.MaKh
+                  }
+                : GioHangBus.GetAll().Join(Sp_BUS.GetAll(), c => c.MaSp, p => p.MaSp,
                     (gioHang, sanPham) => new
                     {
                         MaSanPham = sanPham.MaSp,
@@ -137,7 +155,6 @@ namespace QLBH
 
             if (ac.LaySanPhamGioHangCheckOut)
             {
-                
                 foreach (var x in enumerable)
                     sb.Append($@"<div class='row'>
                         <div class='col-md-2'>
@@ -163,56 +180,53 @@ namespace QLBH
                 if (HttpContext.Current.Session["uid"] == null)
                 {
                     sb.Append(
-                        "<input type='submit' style='float:right; ' name='login_user_with_product' class='btn btn-info btn - lg' value='Ready to Checkout' >");
+                        "<input type='submit' style='float:right; ' name='login_user_with_product' onclick='submit()' class='btn btn-info btn-lg' value='Ready to Checkout' >");
                 }
                 else
                 {
                     sb.Append(@"
-<input type='hidden' name='cmd' value='_cart'>
-                        < input type = 'hidden' name = 'business' value = 'shoppingcart@khanstore.com' >
-
-                        < input type = 'hidden' name = 'upload' value = '1' > ");
+                        <input type = 'hidden' name = 'cmd' value='_cart'>
+                        <input type = 'hidden' name = 'business' value = 'toilati123vn@gmail.com' >
+                        <input type = 'hidden' name = 'upload' value = '1' > ");
 
                     var collections = from p in Sp_BUS.GetAll()
-                        join g in GioHang_BUS.GetAll()
-                            on p.MaSp equals g.MaSp
-                        where g.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString())
-                        select new
-                        {
-                            MaSanPham = p.MaSp,
-                            TenSanPham = p.TenSp,
-                            GiaSanPham = p.DonGia,
-                            HinhSanPham = p.HinhSp,
-                            g.MaGioHang,
-                            g.SoLuong,
-                            g.DiaChiIp,
-                            g.MaKh
-                        };
+                                      join g in GioHangBus.GetAll()
+                                          on p.MaSp equals g.MaSp
+                                      where g.MaKh == int.Parse(HttpContext.Current.Session["uid"].ToString())
+                                      select new
+                                      {
+                                          MaSanPham = p.MaSp,
+                                          TenSanPham = p.TenSp,
+                                          GiaSanPham = p.DonGia,
+                                          HinhSanPham = p.HinhSp,
+                                          g.MaGioHang,
+                                          g.SoLuong,
+                                          g.DiaChiIp,
+                                          g.MaKh
+                                      };
                     var i = 0;
                     foreach (var x in collections)
                     {
                         i++;
                         sb.Append($@"
-<input type='hidden' name='item_name_{i}' value='{x.TenSanPham}'>
-                            < input type = 'hidden' name = 'item_number_{i}' value = '{i}' >
-
-                            < input type = 'hidden' name = 'amount_{i}' value = '{x.GiaSanPham}' >
-
-                            < input type = 'hidden' name = 'quantity_{i}' value = '{x.SoLuong}' > ");
+                            <input type='hidden' name='item_name_{i}' value='{x.TenSanPham}'>
+                            <input type = 'hidden' name = 'item_number_{i}' value = '{i}' >
+                            <input type = 'hidden' name = 'amount_{i}' value = '{x.GiaSanPham}' >
+                            <input type = 'hidden' name = 'quantity_{i}' value = '{x.SoLuong}' > ");
                     }
 
                     sb.Append(
-                        $@"<input type='hidden' name='return ' value='http://localhost/project1/payment_success.php'/>
+                        $@"<input type='hidden' name='return' value='/GiaoDichThanhCong'/>
 
-                        < input type = 'hidden' name = 'notify_url' value = 'http://localhost/project1/payment_success.php' >
+                        <input type = 'hidden' name = 'notify_url' value = '/GiaoDichThanhCong' >
      
-                        < input type = 'hidden' name = 'cancel_return' value = 'http://localhost/project1/cancel.php' />
+                        <input type = 'hidden' name = 'cancel_return' value = '/GiaoDichThatBai' />
           
-                        < input type = 'hidden' name = 'currency_code' value = 'USD' />
+                        <input type = 'hidden' name = 'currency_code' value = 'USD' />
                
-                        < input type = 'hidden' name = 'custom' value = '{HttpContext.Current.Session["uid"]}' />
+                        <input type = 'hidden' name = 'custom' value = '{HttpContext.Current.Session["uid"]}' />
                       
-                        < input style = 'float:right;margin-right:80px;' type = 'image' name = 'submit'
+                        <input style = 'float:right;margin-right:80px;' type = 'image' name = 'submit'
 
                     src = 'https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png' alt = 'PayPal Checkout'
 
@@ -233,7 +247,7 @@ namespace QLBH
             {
                 var sbLoai = new StringBuilder();
 
-                foreach (var spLoai in SpLoai_BUS.GetAll().Where(spLoai => spLoai.MaNhomSp == spNhom.MaNhomSp))
+                foreach (var spLoai in SpLoaiBus.GetAll().Where(spLoai => spLoai.MaNhomSp == spNhom.MaNhomSp))
                     sbLoai.Append(string.Format(@"<tr>
                                                 <td>
                                                     <span class='text-primary'></span><a class='category' cid='{0}' href='{1}'>{2}</a>
@@ -268,10 +282,11 @@ namespace QLBH
         public static string GetPages()
         {
             var sbTrang = new StringBuilder();
-            decimal kq = _spList.Count / (_productOnPage == 0 ? 1 : _productOnPage) + 1;
+            decimal kq = (_spList ?? Sp_BUS.GetAll()).Count / (ProductOnPage == 0 ? 1 : ProductOnPage) + 1;
             var pageNo = Math.Ceiling(kq);
-            for (var i = 1; i <= pageNo; i++)
-                sbTrang.Append(string.Format(@"<li><a href='#' page='{0}' id='page'>{0}</a></li>", i));
+            if (pageNo != 1)
+                for (var i = 1; i <= pageNo; i++)
+                    sbTrang.Append(string.Format(@"<li><a href='#' page='{0}' id='page'>{0}</a></li>", i));
             return sbTrang.ToString();
         }
 
@@ -286,7 +301,7 @@ namespace QLBH
                 _spList = _spList.Where(sp => sp.MaNcc == fc.BrandId).ToList();
             if (!string.IsNullOrEmpty(fc.SearchKey))
                 _spList = _spList.Where(sp => sp.TenSp.Contains(fc.SearchKey)).ToList();
-            var spListPaged = _spList.Skip(_productOnPage * ((fc.PageId ?? 1) - 1)).Take(_productOnPage).ToList();
+            var spListPaged = _spList.Skip(ProductOnPage * ((fc.PageId ?? 1) - 1)).Take(ProductOnPage).ToList();
 
 
             foreach (var sp in spListPaged)
@@ -295,7 +310,7 @@ namespace QLBH
 							<div class='panel panel-info'>
 								<div class='panel-heading'>{sp.TenSp}</div>
 								<div class='panel-body'>
-									<img src='product_images/{sp.HinhSp}' style='width:160px; height:250px;'/>
+									<img src='/product_images/{sp.HinhSp}' style='width:160px; height:250px;'/>
 								</div>
 								<div class='panel-heading'>{sp.DonGia}
 									<button pid='{sp.MaSp}' style='float:right;' id='product' class='btn btn-danger btn-xs'>Thêm giở hàng</button>
@@ -308,32 +323,40 @@ namespace QLBH
 
             return string.IsNullOrEmpty(sb.ToString()) ? "Không có sản phẩm" : sb.ToString();
         }
+        [WebMethod]
+        public static string GetProductsAdmin()
+        {
+            JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+            var json = jsonSerialiser.Serialize(Sp_BUS.GetAll());
+            return json;
+        }
 
         [WebMethod]
         public static string Login(FilterClass fc)
         {
-            var email = SecurityHelper.ToLiteral(fc.Email);
+            var email = fc.Email;
             string password;
             using (var md5Hash = MD5.Create())
             {
                 password = SecurityHelper.GetMd5Hash(md5Hash, fc.Password);
             }
 
-            var kh = Kh_BUS.GetAll().FirstOrDefault(m => m.Email == email && m.MatKhau == password);
+            var kh = KhBus.GetAll().FirstOrDefault(m => m.Email == email && m.MatKhau == password);
             if (kh != null)
             {
-                HttpContext.Current.Session["MaKh"] = kh.MaKh;
-                HttpContext.Current.Session["TenKh"] = kh.TenKh;
+                HttpContext.Current.Session["uid"] = kh.MaKh;
+                HttpContext.Current.Session["name"] = kh.TenKh;
+                return "Thành công";
             }
 
-            return "";
+            return "<span style='color:red;'>Đăng ký nếu chưa có tài khoản!</span>";
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                _productOnPage = 9;
+
                 _truyCapTatCa = Application["TruyCapTatCa"].ToString();
                 _truyCapHienTai = Application["TruyCapHienTai"].ToString();
             }

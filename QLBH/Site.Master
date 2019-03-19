@@ -13,8 +13,8 @@
     <link href="/css/home.css" rel="stylesheet"/>
 </head>
 <body>
-<form runat="server" action="Combo.aspx" onsubmit="return false;">
-    <div class="wait overlay">
+<form runat="server" id="form1">
+    <div class="overlay">
         <div class="loader"></div>
     </div>
     <div class="container">
@@ -57,28 +57,15 @@
                             <a href="http://localhost:50680/Combo">Mua COMBO</a>
                         </li>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>SignIn</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span><%= Session["uid"] != null ? "Xin chào " + Session["name"] : "Đăng nhập" %>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <div style="width: 300px;">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-heading">Login</div>
-                                            <div class="panel-heading">
-
-                                                <label for="email">Email</label>
-                                                <input type="email" class="form-control" name="email" id="email" required/>
-                                                <label for="email">Password</label>
-                                                <input type="password" class="form-control" name="password" id="password" required/>
-                                                <p>
-                                                    <br/>
-                                                </p>
-                                                <a href="#" style="color: white; list-style: none;">Forgotten Password</a><input type="submit" class="btn btn-success" style="float: right;">
-                                            </div>
-                                            <div class="panel-footer" id="e_msg"></div>
-                                        </div>
-                                    </div>
-                                </li>
+                                <%= LtrUserDropdownBody %>
                             </ul>
+                        </li>
+                        <li>
+                            <a href="#" id="dangky" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Đăng ký</a>
                         </li>
                     </ul>
                 </div>

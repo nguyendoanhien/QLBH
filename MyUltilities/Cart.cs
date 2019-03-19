@@ -1,61 +1,45 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
+
 namespace MyUltilities
 {
     public class Cart
     {
-        private static string ipAddress;
-        private static Cart cart;
-        private static string cartSession;
-        private static readonly object padlock = new object();
+        private static Cart _cart;
+        private static readonly object Padlock = new object();
+
         public static Cart GetCart
 
         {
             get
             {
-                lock (padlock)
+                lock (Padlock)
                 {
-                    if (cart == null)
-                    {
-                        cart = new Cart();
-                    }
-                    return cart;
+                    return _cart ?? (_cart = new Cart());
                 }
             }
         }
-        public static string IpAddress
 
+        public static string IpAddress => GetIpAddress();
+
+        public static string GetIpAddress()
         {
-            get
-            {
-                return GetIpAddress();
-            }
+            var ipAddress = "";
+            var host = default(IPHostEntry);
+            string hostname = null;
+            hostname = Environment.MachineName;
+            host = Dns.GetHostEntry(hostname);
+            foreach (var ip in host.AddressList)
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    ipAddress = Convert.ToString(ip);
+            return ipAddress;
         }
+
         public static bool IsSession(object session)
 
         {
-            if (String.IsNullOrEmpty(session.ToString()))
-                return false;
-            return true;
+            return false;
         }
-        public static string GetIpAddress()
-        {
-            string IPAddress="";
-            IPHostEntry Host = default(IPHostEntry);
-            string Hostname = null;
-            Hostname = System.Environment.MachineName;
-            Host = Dns.GetHostEntry(Hostname);
-            foreach (IPAddress IP in Host.AddressList)
-            {
-                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    IPAddress = Convert.ToString(IP);
-                }
-            }
-            return IPAddress;
-        }
-       
-     
-
     }
 }

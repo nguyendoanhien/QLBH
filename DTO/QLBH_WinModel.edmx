@@ -1,0 +1,1111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QLBH_WinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GioHang">
+          <Key>
+            <PropertyRef Name="MaGioHang" />
+          </Key>
+          <Property Name="MaGioHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaSp" Type="int" />
+          <Property Name="MaKh" Type="int" />
+          <Property Name="SoLuong" Type="int" />
+          <Property Name="DiaChiIp" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Kh">
+          <Key>
+            <PropertyRef Name="MaKh" />
+          </Key>
+          <Property Name="MaKh" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenKh" Type="nvarchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="MatKhau" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Ncc">
+          <Key>
+            <PropertyRef Name="MaNcc" />
+          </Key>
+          <Property Name="MaNcc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNcc" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Nv">
+          <Key>
+            <PropertyRef Name="MaNv" />
+          </Key>
+          <Property Name="MaNv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNv" Type="nvarchar" MaxLength="255" />
+          <Property Name="Mk" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="PhieuGiao">
+          <Key>
+            <PropertyRef Name="MaPhieuGiao" />
+          </Key>
+          <Property Name="MaPhieuGiao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNv" Type="int" />
+          <Property Name="MaKh" Type="int" />
+          <Property Name="MaPhieuHd" Type="int" />
+          <Property Name="DiaChiGiao" Type="nvarchar" MaxLength="255" />
+          <Property Name="NgayLap" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PhieuGiaoChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuGiao" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuGiao" Type="int" Nullable="false" />
+          <Property Name="MaSp" Type="int" Nullable="false" />
+          <Property Name="SoLuong" Type="int" />
+        </EntityType>
+        <EntityType Name="PhieuHd">
+          <Key>
+            <PropertyRef Name="MaPhieuHd" />
+          </Key>
+          <Property Name="MaPhieuHd" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaKh" Type="int" />
+          <Property Name="MaNv" Type="int" />
+          <Property Name="NgayTaoHd" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PhieuHdChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuHd" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuHd" Type="int" Nullable="false" />
+          <Property Name="MaSp" Type="int" Nullable="false" />
+          <Property Name="SoLuong" Type="int" />
+          <Property Name="ThanhTien" Type="int" />
+        </EntityType>
+        <EntityType Name="PhieuNhap">
+          <Key>
+            <PropertyRef Name="MaPn" />
+          </Key>
+          <Property Name="MaPn" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNv" Type="int" />
+          <Property Name="NgayLap" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PhieuNhapChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuNhap" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuNhap" Type="int" Nullable="false" />
+          <Property Name="MaSp" Type="int" Nullable="false" />
+          <Property Name="SoLuong" Type="int" />
+        </EntityType>
+        <EntityType Name="Sp">
+          <Key>
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaSp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaLoaiSp" Type="int" />
+          <Property Name="MaNcc" Type="int" />
+          <Property Name="TenSp" Type="nvarchar" MaxLength="255" />
+          <Property Name="HinhSp" Type="nvarchar" MaxLength="255" />
+          <Property Name="DonGia" Type="int" />
+          <Property Name="SoLuongTonKho" Type="int" />
+        </EntityType>
+        <EntityType Name="SpLoai">
+          <Key>
+            <PropertyRef Name="MaLoaiSp" />
+          </Key>
+          <Property Name="MaLoaiSp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNhomSp" Type="int" />
+          <Property Name="TenLoaiSp" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SpNhom">
+          <Key>
+            <PropertyRef Name="MaNhomSp" />
+          </Key>
+          <Property Name="MaNhomSp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNhomSp" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_GioHang_Kh">
+          <End Role="Kh" Type="Self.Kh" Multiplicity="0..1" />
+          <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GioHang_Sp">
+          <End Role="Sp" Type="Self.Sp" Multiplicity="0..1" />
+          <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_Kh">
+          <End Role="Kh" Type="Self.Kh" Multiplicity="0..1" />
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_Nv">
+          <End Role="Nv" Type="Self.Nv" Multiplicity="0..1" />
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_PhieuHd">
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="0..1" />
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_PhieuHd1">
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="0..1" />
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiaoChiTiet_PhieuGiao">
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="1" />
+          <End Role="PhieuGiaoChiTiet" Type="Self.PhieuGiaoChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuGiao" />
+            </Principal>
+            <Dependent Role="PhieuGiaoChiTiet">
+              <PropertyRef Name="MaPhieuGiao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiaoChiTiet_Sp">
+          <End Role="Sp" Type="Self.Sp" Multiplicity="1" />
+          <End Role="PhieuGiaoChiTiet" Type="Self.PhieuGiaoChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuGiaoChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHd_Kh">
+          <End Role="Kh" Type="Self.Kh" Multiplicity="0..1" />
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="PhieuHd">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHd_Nv">
+          <End Role="Nv" Type="Self.Nv" Multiplicity="0..1" />
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuHd">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHDChiTiet_PhieuHD">
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="1" />
+          <End Role="PhieuHdChiTiet" Type="Self.PhieuHdChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuHdChiTiet">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHDChiTiet_SP">
+          <End Role="Sp" Type="Self.Sp" Multiplicity="1" />
+          <End Role="PhieuHdChiTiet" Type="Self.PhieuHdChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuHdChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhap_Nv">
+          <End Role="Nv" Type="Self.Nv" Multiplicity="0..1" />
+          <End Role="PhieuNhap" Type="Self.PhieuNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuNhap">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhap_Nv1">
+          <End Role="Nv" Type="Self.Nv" Multiplicity="0..1" />
+          <End Role="PhieuNhap" Type="Self.PhieuNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuNhap">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhapChiTiet_PhieuNhap">
+          <End Role="PhieuNhap" Type="Self.PhieuNhap" Multiplicity="1" />
+          <End Role="PhieuNhapChiTiet" Type="Self.PhieuNhapChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuNhap">
+              <PropertyRef Name="MaPn" />
+            </Principal>
+            <Dependent Role="PhieuNhapChiTiet">
+              <PropertyRef Name="MaPhieuNhap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhapChiTiet_Sp">
+          <End Role="Sp" Type="Self.Sp" Multiplicity="1" />
+          <End Role="PhieuNhapChiTiet" Type="Self.PhieuNhapChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuNhapChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP_NCC">
+          <End Role="Ncc" Type="Self.Ncc" Multiplicity="0..1" />
+          <End Role="Sp" Type="Self.Sp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ncc">
+              <PropertyRef Name="MaNcc" />
+            </Principal>
+            <Dependent Role="Sp">
+              <PropertyRef Name="MaNcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP_SPLoai">
+          <End Role="SpLoai" Type="Self.SpLoai" Multiplicity="0..1" />
+          <End Role="Sp" Type="Self.Sp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpLoai">
+              <PropertyRef Name="MaLoaiSp" />
+            </Principal>
+            <Dependent Role="Sp">
+              <PropertyRef Name="MaLoaiSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPLoai_SPNhom">
+          <End Role="SpNhom" Type="Self.SpNhom" Multiplicity="0..1" />
+          <End Role="SpLoai" Type="Self.SpLoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpNhom">
+              <PropertyRef Name="MaNhomSp" />
+            </Principal>
+            <Dependent Role="SpLoai">
+              <PropertyRef Name="MaNhomSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLBH_WinModelStoreContainer">
+          <EntitySet Name="GioHang" EntityType="Self.GioHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kh" EntityType="Self.Kh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ncc" EntityType="Self.Ncc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nv" EntityType="Self.Nv" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuGiao" EntityType="Self.PhieuGiao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuGiaoChiTiet" EntityType="Self.PhieuGiaoChiTiet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuHd" EntityType="Self.PhieuHd" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuHdChiTiet" EntityType="Self.PhieuHdChiTiet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuNhap" EntityType="Self.PhieuNhap" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhieuNhapChiTiet" EntityType="Self.PhieuNhapChiTiet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sp" EntityType="Self.Sp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpLoai" EntityType="Self.SpLoai" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpNhom" EntityType="Self.SpNhom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GioHang_Kh" Association="Self.FK_GioHang_Kh">
+            <End Role="Kh" EntitySet="Kh" />
+            <End Role="GioHang" EntitySet="GioHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GioHang_Sp" Association="Self.FK_GioHang_Sp">
+            <End Role="Sp" EntitySet="Sp" />
+            <End Role="GioHang" EntitySet="GioHang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_Kh" Association="Self.FK_PhieuGiao_Kh">
+            <End Role="Kh" EntitySet="Kh" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_Nv" Association="Self.FK_PhieuGiao_Nv">
+            <End Role="Nv" EntitySet="Nv" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_PhieuHd" Association="Self.FK_PhieuGiao_PhieuHd">
+            <End Role="PhieuHd" EntitySet="PhieuHd" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_PhieuHd1" Association="Self.FK_PhieuGiao_PhieuHd1">
+            <End Role="PhieuHd" EntitySet="PhieuHd" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiaoChiTiet_PhieuGiao" Association="Self.FK_PhieuGiaoChiTiet_PhieuGiao">
+            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
+            <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiaoChiTiet_Sp" Association="Self.FK_PhieuGiaoChiTiet_Sp">
+            <End Role="Sp" EntitySet="Sp" />
+            <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHd_Kh" Association="Self.FK_PhieuHd_Kh">
+            <End Role="Kh" EntitySet="Kh" />
+            <End Role="PhieuHd" EntitySet="PhieuHd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHd_Nv" Association="Self.FK_PhieuHd_Nv">
+            <End Role="Nv" EntitySet="Nv" />
+            <End Role="PhieuHd" EntitySet="PhieuHd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHDChiTiet_PhieuHD" Association="Self.FK_PhieuHDChiTiet_PhieuHD">
+            <End Role="PhieuHd" EntitySet="PhieuHd" />
+            <End Role="PhieuHdChiTiet" EntitySet="PhieuHdChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHDChiTiet_SP" Association="Self.FK_PhieuHDChiTiet_SP">
+            <End Role="Sp" EntitySet="Sp" />
+            <End Role="PhieuHdChiTiet" EntitySet="PhieuHdChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhap_Nv" Association="Self.FK_PhieuNhap_Nv">
+            <End Role="Nv" EntitySet="Nv" />
+            <End Role="PhieuNhap" EntitySet="PhieuNhap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhap_Nv1" Association="Self.FK_PhieuNhap_Nv1">
+            <End Role="Nv" EntitySet="Nv" />
+            <End Role="PhieuNhap" EntitySet="PhieuNhap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhapChiTiet_PhieuNhap" Association="Self.FK_PhieuNhapChiTiet_PhieuNhap">
+            <End Role="PhieuNhap" EntitySet="PhieuNhap" />
+            <End Role="PhieuNhapChiTiet" EntitySet="PhieuNhapChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhapChiTiet_Sp" Association="Self.FK_PhieuNhapChiTiet_Sp">
+            <End Role="Sp" EntitySet="Sp" />
+            <End Role="PhieuNhapChiTiet" EntitySet="PhieuNhapChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP_NCC" Association="Self.FK_SP_NCC">
+            <End Role="Ncc" EntitySet="Ncc" />
+            <End Role="Sp" EntitySet="Sp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP_SPLoai" Association="Self.FK_SP_SPLoai">
+            <End Role="SpLoai" EntitySet="SpLoai" />
+            <End Role="Sp" EntitySet="Sp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPLoai_SPNhom" Association="Self.FK_SPLoai_SPNhom">
+            <End Role="SpNhom" EntitySet="SpNhom" />
+            <End Role="SpLoai" EntitySet="SpLoai" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QLBH_WinModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QLBH_WinDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GioHangs" EntityType="QLBH_WinModel.GioHang" />
+          <EntitySet Name="Khs" EntityType="QLBH_WinModel.Kh" />
+          <EntitySet Name="Nccs" EntityType="QLBH_WinModel.Ncc" />
+          <EntitySet Name="Nvs" EntityType="QLBH_WinModel.Nv" />
+          <EntitySet Name="PhieuGiaos" EntityType="QLBH_WinModel.PhieuGiao" />
+          <EntitySet Name="PhieuGiaoChiTiets" EntityType="QLBH_WinModel.PhieuGiaoChiTiet" />
+          <EntitySet Name="PhieuHds" EntityType="QLBH_WinModel.PhieuHd" />
+          <EntitySet Name="PhieuHdChiTiets" EntityType="QLBH_WinModel.PhieuHdChiTiet" />
+          <EntitySet Name="PhieuNhaps" EntityType="QLBH_WinModel.PhieuNhap" />
+          <EntitySet Name="PhieuNhapChiTiets" EntityType="QLBH_WinModel.PhieuNhapChiTiet" />
+          <EntitySet Name="Sps" EntityType="QLBH_WinModel.Sp" />
+          <EntitySet Name="SpLoais" EntityType="QLBH_WinModel.SpLoai" />
+          <EntitySet Name="SpNhoms" EntityType="QLBH_WinModel.SpNhom" />
+          <EntitySet Name="sysdiagrams" EntityType="QLBH_WinModel.sysdiagram" />
+          <AssociationSet Name="FK_GioHang_Kh" Association="QLBH_WinModel.FK_GioHang_Kh">
+            <End Role="Kh" EntitySet="Khs" />
+            <End Role="GioHang" EntitySet="GioHangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GioHang_Sp" Association="QLBH_WinModel.FK_GioHang_Sp">
+            <End Role="Sp" EntitySet="Sps" />
+            <End Role="GioHang" EntitySet="GioHangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_Kh" Association="QLBH_WinModel.FK_PhieuGiao_Kh">
+            <End Role="Kh" EntitySet="Khs" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHd_Kh" Association="QLBH_WinModel.FK_PhieuHd_Kh">
+            <End Role="Kh" EntitySet="Khs" />
+            <End Role="PhieuHd" EntitySet="PhieuHds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP_NCC" Association="QLBH_WinModel.FK_SP_NCC">
+            <End Role="Ncc" EntitySet="Nccs" />
+            <End Role="Sp" EntitySet="Sps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_Nv" Association="QLBH_WinModel.FK_PhieuGiao_Nv">
+            <End Role="Nv" EntitySet="Nvs" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHd_Nv" Association="QLBH_WinModel.FK_PhieuHd_Nv">
+            <End Role="Nv" EntitySet="Nvs" />
+            <End Role="PhieuHd" EntitySet="PhieuHds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhap_Nv" Association="QLBH_WinModel.FK_PhieuNhap_Nv">
+            <End Role="Nv" EntitySet="Nvs" />
+            <End Role="PhieuNhap" EntitySet="PhieuNhaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhap_Nv1" Association="QLBH_WinModel.FK_PhieuNhap_Nv1">
+            <End Role="Nv" EntitySet="Nvs" />
+            <End Role="PhieuNhap" EntitySet="PhieuNhaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_PhieuHd" Association="QLBH_WinModel.FK_PhieuGiao_PhieuHd">
+            <End Role="PhieuHd" EntitySet="PhieuHds" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiao_PhieuHd1" Association="QLBH_WinModel.FK_PhieuGiao_PhieuHd1">
+            <End Role="PhieuHd" EntitySet="PhieuHds" />
+            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiaoChiTiet_PhieuGiao" Association="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao">
+            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
+            <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuGiaoChiTiet_Sp" Association="QLBH_WinModel.FK_PhieuGiaoChiTiet_Sp">
+            <End Role="Sp" EntitySet="Sps" />
+            <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHDChiTiet_PhieuHD" Association="QLBH_WinModel.FK_PhieuHDChiTiet_PhieuHD">
+            <End Role="PhieuHd" EntitySet="PhieuHds" />
+            <End Role="PhieuHdChiTiet" EntitySet="PhieuHdChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuHDChiTiet_SP" Association="QLBH_WinModel.FK_PhieuHDChiTiet_SP">
+            <End Role="Sp" EntitySet="Sps" />
+            <End Role="PhieuHdChiTiet" EntitySet="PhieuHdChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhapChiTiet_PhieuNhap" Association="QLBH_WinModel.FK_PhieuNhapChiTiet_PhieuNhap">
+            <End Role="PhieuNhap" EntitySet="PhieuNhaps" />
+            <End Role="PhieuNhapChiTiet" EntitySet="PhieuNhapChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhieuNhapChiTiet_Sp" Association="QLBH_WinModel.FK_PhieuNhapChiTiet_Sp">
+            <End Role="Sp" EntitySet="Sps" />
+            <End Role="PhieuNhapChiTiet" EntitySet="PhieuNhapChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP_SPLoai" Association="QLBH_WinModel.FK_SP_SPLoai">
+            <End Role="SpLoai" EntitySet="SpLoais" />
+            <End Role="Sp" EntitySet="Sps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPLoai_SPNhom" Association="QLBH_WinModel.FK_SPLoai_SPNhom">
+            <End Role="SpNhom" EntitySet="SpNhoms" />
+            <End Role="SpLoai" EntitySet="SpLoais" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="GioHang">
+          <Key>
+            <PropertyRef Name="MaGioHang" />
+          </Key>
+          <Property Name="MaGioHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaSp" Type="Int32" />
+          <Property Name="MaKh" Type="Int32" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="DiaChiIp" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kh" Relationship="QLBH_WinModel.FK_GioHang_Kh" FromRole="GioHang" ToRole="Kh" />
+          <NavigationProperty Name="Sp" Relationship="QLBH_WinModel.FK_GioHang_Sp" FromRole="GioHang" ToRole="Sp" />
+        </EntityType>
+        <EntityType Name="Kh">
+          <Key>
+            <PropertyRef Name="MaKh" />
+          </Key>
+          <Property Name="MaKh" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenKh" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GioHangs" Relationship="QLBH_WinModel.FK_GioHang_Kh" FromRole="Kh" ToRole="GioHang" />
+          <NavigationProperty Name="PhieuGiaos" Relationship="QLBH_WinModel.FK_PhieuGiao_Kh" FromRole="Kh" ToRole="PhieuGiao" />
+          <NavigationProperty Name="PhieuHds" Relationship="QLBH_WinModel.FK_PhieuHd_Kh" FromRole="Kh" ToRole="PhieuHd" />
+        </EntityType>
+        <EntityType Name="Ncc">
+          <Key>
+            <PropertyRef Name="MaNcc" />
+          </Key>
+          <Property Name="MaNcc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNcc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sps" Relationship="QLBH_WinModel.FK_SP_NCC" FromRole="Ncc" ToRole="Sp" />
+        </EntityType>
+        <EntityType Name="Nv">
+          <Key>
+            <PropertyRef Name="MaNv" />
+          </Key>
+          <Property Name="MaNv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Mk" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PhieuGiaos" Relationship="QLBH_WinModel.FK_PhieuGiao_Nv" FromRole="Nv" ToRole="PhieuGiao" />
+          <NavigationProperty Name="PhieuHds" Relationship="QLBH_WinModel.FK_PhieuHd_Nv" FromRole="Nv" ToRole="PhieuHd" />
+          <NavigationProperty Name="PhieuNhaps" Relationship="QLBH_WinModel.FK_PhieuNhap_Nv" FromRole="Nv" ToRole="PhieuNhap" />
+          <NavigationProperty Name="PhieuNhaps1" Relationship="QLBH_WinModel.FK_PhieuNhap_Nv1" FromRole="Nv" ToRole="PhieuNhap" />
+        </EntityType>
+        <EntityType Name="PhieuGiao">
+          <Key>
+            <PropertyRef Name="MaPhieuGiao" />
+          </Key>
+          <Property Name="MaPhieuGiao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaNv" Type="Int32" />
+          <Property Name="MaKh" Type="Int32" />
+          <Property Name="MaPhieuHd" Type="Int32" />
+          <Property Name="DiaChiGiao" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NgayLap" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Kh" Relationship="QLBH_WinModel.FK_PhieuGiao_Kh" FromRole="PhieuGiao" ToRole="Kh" />
+          <NavigationProperty Name="Nv" Relationship="QLBH_WinModel.FK_PhieuGiao_Nv" FromRole="PhieuGiao" ToRole="Nv" />
+          <NavigationProperty Name="PhieuHd" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd" FromRole="PhieuGiao" ToRole="PhieuHd" />
+          <NavigationProperty Name="PhieuHd1" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd1" FromRole="PhieuGiao" ToRole="PhieuHd" />
+          <NavigationProperty Name="PhieuGiaoChiTiets" Relationship="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao" FromRole="PhieuGiao" ToRole="PhieuGiaoChiTiet" />
+        </EntityType>
+        <EntityType Name="PhieuGiaoChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuGiao" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuGiao" Type="Int32" Nullable="false" />
+          <Property Name="MaSp" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <NavigationProperty Name="PhieuGiao" Relationship="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao" FromRole="PhieuGiaoChiTiet" ToRole="PhieuGiao" />
+          <NavigationProperty Name="Sp" Relationship="QLBH_WinModel.FK_PhieuGiaoChiTiet_Sp" FromRole="PhieuGiaoChiTiet" ToRole="Sp" />
+        </EntityType>
+        <EntityType Name="PhieuHd">
+          <Key>
+            <PropertyRef Name="MaPhieuHd" />
+          </Key>
+          <Property Name="MaPhieuHd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaKh" Type="Int32" />
+          <Property Name="MaNv" Type="Int32" />
+          <Property Name="NgayTaoHd" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Kh" Relationship="QLBH_WinModel.FK_PhieuHd_Kh" FromRole="PhieuHd" ToRole="Kh" />
+          <NavigationProperty Name="Nv" Relationship="QLBH_WinModel.FK_PhieuHd_Nv" FromRole="PhieuHd" ToRole="Nv" />
+          <NavigationProperty Name="PhieuGiaos" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd" FromRole="PhieuHd" ToRole="PhieuGiao" />
+          <NavigationProperty Name="PhieuGiaos1" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd1" FromRole="PhieuHd" ToRole="PhieuGiao" />
+          <NavigationProperty Name="PhieuHdChiTiets" Relationship="QLBH_WinModel.FK_PhieuHDChiTiet_PhieuHD" FromRole="PhieuHd" ToRole="PhieuHdChiTiet" />
+        </EntityType>
+        <EntityType Name="PhieuHdChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuHd" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuHd" Type="Int32" Nullable="false" />
+          <Property Name="MaSp" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="ThanhTien" Type="Int32" />
+          <NavigationProperty Name="PhieuHd" Relationship="QLBH_WinModel.FK_PhieuHDChiTiet_PhieuHD" FromRole="PhieuHdChiTiet" ToRole="PhieuHd" />
+          <NavigationProperty Name="Sp" Relationship="QLBH_WinModel.FK_PhieuHDChiTiet_SP" FromRole="PhieuHdChiTiet" ToRole="Sp" />
+        </EntityType>
+        <EntityType Name="PhieuNhap">
+          <Key>
+            <PropertyRef Name="MaPn" />
+          </Key>
+          <Property Name="MaPn" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaNv" Type="Int32" />
+          <Property Name="NgayLap" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Nv" Relationship="QLBH_WinModel.FK_PhieuNhap_Nv" FromRole="PhieuNhap" ToRole="Nv" />
+          <NavigationProperty Name="Nv1" Relationship="QLBH_WinModel.FK_PhieuNhap_Nv1" FromRole="PhieuNhap" ToRole="Nv" />
+          <NavigationProperty Name="PhieuNhapChiTiets" Relationship="QLBH_WinModel.FK_PhieuNhapChiTiet_PhieuNhap" FromRole="PhieuNhap" ToRole="PhieuNhapChiTiet" />
+        </EntityType>
+        <EntityType Name="PhieuNhapChiTiet">
+          <Key>
+            <PropertyRef Name="MaPhieuNhap" />
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaPhieuNhap" Type="Int32" Nullable="false" />
+          <Property Name="MaSp" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <NavigationProperty Name="PhieuNhap" Relationship="QLBH_WinModel.FK_PhieuNhapChiTiet_PhieuNhap" FromRole="PhieuNhapChiTiet" ToRole="PhieuNhap" />
+          <NavigationProperty Name="Sp" Relationship="QLBH_WinModel.FK_PhieuNhapChiTiet_Sp" FromRole="PhieuNhapChiTiet" ToRole="Sp" />
+        </EntityType>
+        <EntityType Name="Sp">
+          <Key>
+            <PropertyRef Name="MaSp" />
+          </Key>
+          <Property Name="MaSp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaLoaiSp" Type="Int32" />
+          <Property Name="MaNcc" Type="Int32" />
+          <Property Name="TenSp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="HinhSp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DonGia" Type="Int32" />
+          <Property Name="SoLuongTonKho" Type="Int32" />
+          <NavigationProperty Name="GioHangs" Relationship="QLBH_WinModel.FK_GioHang_Sp" FromRole="Sp" ToRole="GioHang" />
+          <NavigationProperty Name="Ncc" Relationship="QLBH_WinModel.FK_SP_NCC" FromRole="Sp" ToRole="Ncc" />
+          <NavigationProperty Name="PhieuGiaoChiTiets" Relationship="QLBH_WinModel.FK_PhieuGiaoChiTiet_Sp" FromRole="Sp" ToRole="PhieuGiaoChiTiet" />
+          <NavigationProperty Name="PhieuHdChiTiets" Relationship="QLBH_WinModel.FK_PhieuHDChiTiet_SP" FromRole="Sp" ToRole="PhieuHdChiTiet" />
+          <NavigationProperty Name="PhieuNhapChiTiets" Relationship="QLBH_WinModel.FK_PhieuNhapChiTiet_Sp" FromRole="Sp" ToRole="PhieuNhapChiTiet" />
+          <NavigationProperty Name="SpLoai" Relationship="QLBH_WinModel.FK_SP_SPLoai" FromRole="Sp" ToRole="SpLoai" />
+        </EntityType>
+        <EntityType Name="SpLoai">
+          <Key>
+            <PropertyRef Name="MaLoaiSp" />
+          </Key>
+          <Property Name="MaLoaiSp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaNhomSp" Type="Int32" />
+          <Property Name="TenLoaiSp" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Sps" Relationship="QLBH_WinModel.FK_SP_SPLoai" FromRole="SpLoai" ToRole="Sp" />
+          <NavigationProperty Name="SpNhom" Relationship="QLBH_WinModel.FK_SPLoai_SPNhom" FromRole="SpLoai" ToRole="SpNhom" />
+        </EntityType>
+        <EntityType Name="SpNhom">
+          <Key>
+            <PropertyRef Name="MaNhomSp" />
+          </Key>
+          <Property Name="MaNhomSp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNhomSp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SpLoais" Relationship="QLBH_WinModel.FK_SPLoai_SPNhom" FromRole="SpNhom" ToRole="SpLoai" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_GioHang_Kh">
+          <End Type="QLBH_WinModel.Kh" Role="Kh" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.GioHang" Role="GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GioHang_Sp">
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.GioHang" Role="GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_Kh">
+          <End Type="QLBH_WinModel.Kh" Role="Kh" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHd_Kh">
+          <End Type="QLBH_WinModel.Kh" Role="Kh" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kh">
+              <PropertyRef Name="MaKh" />
+            </Principal>
+            <Dependent Role="PhieuHd">
+              <PropertyRef Name="MaKh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP_NCC">
+          <End Type="QLBH_WinModel.Ncc" Role="Ncc" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ncc">
+              <PropertyRef Name="MaNcc" />
+            </Principal>
+            <Dependent Role="Sp">
+              <PropertyRef Name="MaNcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_Nv">
+          <End Type="QLBH_WinModel.Nv" Role="Nv" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHd_Nv">
+          <End Type="QLBH_WinModel.Nv" Role="Nv" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuHd">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhap_Nv">
+          <End Type="QLBH_WinModel.Nv" Role="Nv" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuNhap" Role="PhieuNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuNhap">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhap_Nv1">
+          <End Type="QLBH_WinModel.Nv" Role="Nv" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuNhap" Role="PhieuNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nv">
+              <PropertyRef Name="MaNv" />
+            </Principal>
+            <Dependent Role="PhieuNhap">
+              <PropertyRef Name="MaNv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_PhieuHd">
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiao_PhieuHd1">
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiaoChiTiet_PhieuGiao">
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuGiaoChiTiet" Role="PhieuGiaoChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuGiao">
+              <PropertyRef Name="MaPhieuGiao" />
+            </Principal>
+            <Dependent Role="PhieuGiaoChiTiet">
+              <PropertyRef Name="MaPhieuGiao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuGiaoChiTiet_Sp">
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuGiaoChiTiet" Role="PhieuGiaoChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuGiaoChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHDChiTiet_PhieuHD">
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuHdChiTiet" Role="PhieuHdChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuHd">
+              <PropertyRef Name="MaPhieuHd" />
+            </Principal>
+            <Dependent Role="PhieuHdChiTiet">
+              <PropertyRef Name="MaPhieuHd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuHDChiTiet_SP">
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuHdChiTiet" Role="PhieuHdChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuHdChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhapChiTiet_PhieuNhap">
+          <End Type="QLBH_WinModel.PhieuNhap" Role="PhieuNhap" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuNhapChiTiet" Role="PhieuNhapChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhieuNhap">
+              <PropertyRef Name="MaPn" />
+            </Principal>
+            <Dependent Role="PhieuNhapChiTiet">
+              <PropertyRef Name="MaPhieuNhap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhieuNhapChiTiet_Sp">
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuNhapChiTiet" Role="PhieuNhapChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sp">
+              <PropertyRef Name="MaSp" />
+            </Principal>
+            <Dependent Role="PhieuNhapChiTiet">
+              <PropertyRef Name="MaSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP_SPLoai">
+          <End Type="QLBH_WinModel.SpLoai" Role="SpLoai" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.Sp" Role="Sp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpLoai">
+              <PropertyRef Name="MaLoaiSp" />
+            </Principal>
+            <Dependent Role="Sp">
+              <PropertyRef Name="MaLoaiSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPLoai_SPNhom">
+          <End Type="QLBH_WinModel.SpNhom" Role="SpNhom" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.SpLoai" Role="SpLoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpNhom">
+              <PropertyRef Name="MaNhomSp" />
+            </Principal>
+            <Dependent Role="SpLoai">
+              <PropertyRef Name="MaNhomSp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QLBH_WinModelStoreContainer" CdmEntityContainer="QLBH_WinDBContext">
+          <EntitySetMapping Name="GioHangs">
+            <EntityTypeMapping TypeName="QLBH_WinModel.GioHang">
+              <MappingFragment StoreEntitySet="GioHang">
+                <ScalarProperty Name="DiaChiIp" ColumnName="DiaChiIp" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaKh" ColumnName="MaKh" />
+                <ScalarProperty Name="MaSp" ColumnName="MaSp" />
+                <ScalarProperty Name="MaGioHang" ColumnName="MaGioHang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Khs">
+            <EntityTypeMapping TypeName="QLBH_WinModel.Kh">
+              <MappingFragment StoreEntitySet="Kh">
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TenKh" ColumnName="TenKh" />
+                <ScalarProperty Name="MaKh" ColumnName="MaKh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nccs">
+            <EntityTypeMapping TypeName="QLBH_WinModel.Ncc">
+              <MappingFragment StoreEntitySet="Ncc">
+                <ScalarProperty Name="TenNcc" ColumnName="TenNcc" />
+                <ScalarProperty Name="MaNcc" ColumnName="MaNcc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nvs">
+            <EntityTypeMapping TypeName="QLBH_WinModel.Nv">
+              <MappingFragment StoreEntitySet="Nv">
+                <ScalarProperty Name="Mk" ColumnName="Mk" />
+                <ScalarProperty Name="TenNv" ColumnName="TenNv" />
+                <ScalarProperty Name="MaNv" ColumnName="MaNv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuGiaos">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuGiao">
+              <MappingFragment StoreEntitySet="PhieuGiao">
+                <ScalarProperty Name="NgayLap" ColumnName="NgayLap" />
+                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
+                <ScalarProperty Name="MaPhieuHd" ColumnName="MaPhieuHd" />
+                <ScalarProperty Name="MaKh" ColumnName="MaKh" />
+                <ScalarProperty Name="MaNv" ColumnName="MaNv" />
+                <ScalarProperty Name="MaPhieuGiao" ColumnName="MaPhieuGiao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuGiaoChiTiets">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuGiaoChiTiet">
+              <MappingFragment StoreEntitySet="PhieuGiaoChiTiet">
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaSp" ColumnName="MaSp" />
+                <ScalarProperty Name="MaPhieuGiao" ColumnName="MaPhieuGiao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuHds">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuHd">
+              <MappingFragment StoreEntitySet="PhieuHd">
+                <ScalarProperty Name="NgayTaoHd" ColumnName="NgayTaoHd" />
+                <ScalarProperty Name="MaNv" ColumnName="MaNv" />
+                <ScalarProperty Name="MaKh" ColumnName="MaKh" />
+                <ScalarProperty Name="MaPhieuHd" ColumnName="MaPhieuHd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuHdChiTiets">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuHdChiTiet">
+              <MappingFragment StoreEntitySet="PhieuHdChiTiet">
+                <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaSp" ColumnName="MaSp" />
+                <ScalarProperty Name="MaPhieuHd" ColumnName="MaPhieuHd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuNhaps">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuNhap">
+              <MappingFragment StoreEntitySet="PhieuNhap">
+                <ScalarProperty Name="NgayLap" ColumnName="NgayLap" />
+                <ScalarProperty Name="MaNv" ColumnName="MaNv" />
+                <ScalarProperty Name="MaPn" ColumnName="MaPn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhieuNhapChiTiets">
+            <EntityTypeMapping TypeName="QLBH_WinModel.PhieuNhapChiTiet">
+              <MappingFragment StoreEntitySet="PhieuNhapChiTiet">
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaSp" ColumnName="MaSp" />
+                <ScalarProperty Name="MaPhieuNhap" ColumnName="MaPhieuNhap" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sps">
+            <EntityTypeMapping TypeName="QLBH_WinModel.Sp">
+              <MappingFragment StoreEntitySet="Sp">
+                <ScalarProperty Name="SoLuongTonKho" ColumnName="SoLuongTonKho" />
+                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
+                <ScalarProperty Name="HinhSp" ColumnName="HinhSp" />
+                <ScalarProperty Name="TenSp" ColumnName="TenSp" />
+                <ScalarProperty Name="MaNcc" ColumnName="MaNcc" />
+                <ScalarProperty Name="MaLoaiSp" ColumnName="MaLoaiSp" />
+                <ScalarProperty Name="MaSp" ColumnName="MaSp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpLoais">
+            <EntityTypeMapping TypeName="QLBH_WinModel.SpLoai">
+              <MappingFragment StoreEntitySet="SpLoai">
+                <ScalarProperty Name="TenLoaiSp" ColumnName="TenLoaiSp" />
+                <ScalarProperty Name="MaNhomSp" ColumnName="MaNhomSp" />
+                <ScalarProperty Name="MaLoaiSp" ColumnName="MaLoaiSp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpNhoms">
+            <EntityTypeMapping TypeName="QLBH_WinModel.SpNhom">
+              <MappingFragment StoreEntitySet="SpNhom">
+                <ScalarProperty Name="TenNhomSp" ColumnName="TenNhomSp" />
+                <ScalarProperty Name="MaNhomSp" ColumnName="MaNhomSp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QLBH_WinModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
