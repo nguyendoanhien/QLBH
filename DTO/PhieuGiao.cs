@@ -30,7 +30,6 @@ namespace DTO
         public virtual Kh Kh { get; set; }
         public virtual Nv Nv { get; set; }
         public virtual PhieuHd PhieuHd { get; set; }
-        public virtual PhieuHd PhieuHd1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhieuGiaoChiTiet> PhieuGiaoChiTiets { get; set; }
     }

@@ -6,6 +6,7 @@ using DTO;
 namespace BUS
 {
     public class PhieuHd_BUS
+
     {
         private static PhieuHd_DAO _instance;
 
@@ -39,6 +40,7 @@ namespace BUS
             return PhieuHd_DAO.Instance.Laphd();
         }
 
+        
         public static void Delete(PhieuHd obj)
         {
             Instance.Delete(obj);
@@ -46,7 +48,7 @@ namespace BUS
 
         public static List<PhieuHd> GetAll()
         {
-            return _instance.GetAll();
+            return Instance.GetAll();
         }
 
         public static PhieuHd GetById(int id)
@@ -61,8 +63,12 @@ namespace BUS
 
         public static void Update(PhieuHd obj)
         {
-            Instance.Update(obj);
+            PhieuHd_DAO.Update111(obj);
         }
 
+        public bool sua(int id, int makh, int manv, int ck, string tt)
+        {
+            return PhieuHd_DAO.Instance.sua(id, makh, manv, ck, tt);
+        }
     }
 }

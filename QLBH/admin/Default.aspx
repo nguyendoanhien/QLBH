@@ -1,5 +1,11 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/admin/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="QLBH.admin.Default" %>
 
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script type="text/javascript">
+    
+
+    </script>
+</asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="lead text-primary text-center text-uppercase">Combo</div>
     <div class="row">
@@ -16,7 +22,8 @@
             <input type="number" disabled class="form-control" id="moneyafter">
         </div>
         <div class="col-xs-12 text-right">
-            <button class="btn btn-primary" id="btnlaphoadon">Lập hóa đơn</button></div>
+            <button class="btn btn-primary" id="btnlaphoadon">Lập hóa đơn</button>
+        </div>
     </div>
     <div class="row">
         <div class="col-xs-5">

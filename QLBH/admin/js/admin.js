@@ -20,7 +20,7 @@
             $("[id$='moneyafter']").val((100 - $(this).val()) * $("[id$='moneybefore']").val() / 100);
         });
     function loadInputProducts() {
-
+        debugger;
         $(".overlay").show();
         var fcAjax = {};
         $.ajax({
@@ -98,7 +98,7 @@
     $("[id$='btnlaphoadon']").on('click',
         function () {
             var objList = new Array();
-       
+
             $("[id$='outputCombo'] tr").each(function () {
                 var maSp = $(this).find('input[type=checkbox]').val();
                 var soLuong = $(this).find('.quantity').val();
@@ -108,14 +108,16 @@
 
 
             });
-            debugger;
+            var phantram = $("[id$='percent']").val();
+            var tienGiam = $("[id$='moneybefore']").val();
             $.ajax({
                 type: "POST",
-                url: "/admin/HoaDon.aspx/LapHoaDon",
-                data: "{data:'" + JSON.stringify(objList) + "'}",
+                url: "/admin/DonHang.aspx/LapHoaDon",
+                data: "{ data:'"+ JSON.stringify(objList) +"',phanTram:'"+phantram+"',tienGiam:'"+tienGiam+"'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
+                    alert("Đã lập hóa đơn");
 
 
                 }

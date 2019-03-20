@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
@@ -153,11 +154,9 @@ namespace DAO
         public DataGridView Xem(DataGridView data)
         {
             data.DataSource = (from s in _db.Sps
-                from g in _db.PhieuGiaoChiTiets
-                from n in _db.PhieuNhapChiTiets
                 from c in _db.Nccs
                 from l in _db.SpLoais
-                where c.MaNcc == s.MaNcc && l.MaLoaiSp == s.MaLoaiSp && g.MaSp == s.MaSp && n.MaSp == s.MaSp
+                where c.MaNcc == s.MaNcc && l.MaLoaiSp == s.MaLoaiSp
                 orderby s.MaSp
                 select new
                 {
@@ -166,7 +165,7 @@ namespace DAO
                     c.TenNcc,
                     l.TenLoaiSp,
                     s.DonGia,
-                    SoLuong = n.SoLuong - g.SoLuong
+                    SoLuong = s.SoLuongTonKho
                 }).ToList();
             return data;
         }

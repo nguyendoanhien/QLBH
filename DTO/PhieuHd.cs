@@ -18,21 +18,20 @@ namespace DTO
         public PhieuHd()
         {
             this.PhieuGiaos = new HashSet<PhieuGiao>();
-            this.PhieuGiaos1 = new HashSet<PhieuGiao>();
             this.PhieuHdChiTiets = new HashSet<PhieuHdChiTiet>();
         }
     
         public int MaPhieuHd { get; set; }
         public Nullable<int> MaKh { get; set; }
         public Nullable<int> MaNv { get; set; }
-        public Nullable<System.DateTime> NgayTaoHd { get; set; }
+        public Nullable<System.DateTime> NgayLap { get; set; }
+        public Nullable<int> PhanTramGiam { get; set; }
+        public string TienGiam { get; set; }
     
         public virtual Kh Kh { get; set; }
         public virtual Nv Nv { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhieuGiao> PhieuGiaos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhieuGiao> PhieuGiaos1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhieuHdChiTiet> PhieuHdChiTiets { get; set; }
     }

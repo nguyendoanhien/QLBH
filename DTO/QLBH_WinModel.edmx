@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QLBH_WinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLBH_WinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="GioHang">
           <Key>
             <PropertyRef Name="MaGioHang" />
@@ -66,7 +66,9 @@
           <Property Name="MaPhieuHd" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaKh" Type="int" />
           <Property Name="MaNv" Type="int" />
-          <Property Name="NgayTaoHd" Type="datetime" />
+          <Property Name="NgayLap" Type="datetime" />
+          <Property Name="PhanTramGiam" Type="int" />
+          <Property Name="TienGiam" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PhieuHdChiTiet">
           <Key>
@@ -181,19 +183,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuGiao_PhieuHd">
-          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="0..1" />
-          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PhieuHd">
-              <PropertyRef Name="MaPhieuHd" />
-            </Principal>
-            <Dependent Role="PhieuGiao">
-              <PropertyRef Name="MaPhieuHd" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PhieuGiao_PhieuHd1">
-          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="0..1" />
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuHd">
@@ -205,7 +197,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuGiaoChiTiet_PhieuGiao">
-          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="1" />
+          <End Role="PhieuGiao" Type="Self.PhieuGiao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PhieuGiaoChiTiet" Type="Self.PhieuGiaoChiTiet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuGiao">
@@ -253,7 +247,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuHDChiTiet_PhieuHD">
-          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="1" />
+          <End Role="PhieuHd" Type="Self.PhieuHd" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PhieuHdChiTiet" Type="Self.PhieuHdChiTiet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuHd">
@@ -395,10 +391,6 @@
             <End Role="PhieuHd" EntitySet="PhieuHd" />
             <End Role="PhieuGiao" EntitySet="PhieuGiao" />
           </AssociationSet>
-          <AssociationSet Name="FK_PhieuGiao_PhieuHd1" Association="Self.FK_PhieuGiao_PhieuHd1">
-            <End Role="PhieuHd" EntitySet="PhieuHd" />
-            <End Role="PhieuGiao" EntitySet="PhieuGiao" />
-          </AssociationSet>
           <AssociationSet Name="FK_PhieuGiaoChiTiet_PhieuGiao" Association="Self.FK_PhieuGiaoChiTiet_PhieuGiao">
             <End Role="PhieuGiao" EntitySet="PhieuGiao" />
             <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiet" />
@@ -511,10 +503,6 @@
             <End Role="PhieuHd" EntitySet="PhieuHds" />
             <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
           </AssociationSet>
-          <AssociationSet Name="FK_PhieuGiao_PhieuHd1" Association="QLBH_WinModel.FK_PhieuGiao_PhieuHd1">
-            <End Role="PhieuHd" EntitySet="PhieuHds" />
-            <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
-          </AssociationSet>
           <AssociationSet Name="FK_PhieuGiaoChiTiet_PhieuGiao" Association="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao">
             <End Role="PhieuGiao" EntitySet="PhieuGiaos" />
             <End Role="PhieuGiaoChiTiet" EntitySet="PhieuGiaoChiTiets" />
@@ -605,7 +593,6 @@
           <NavigationProperty Name="Kh" Relationship="QLBH_WinModel.FK_PhieuGiao_Kh" FromRole="PhieuGiao" ToRole="Kh" />
           <NavigationProperty Name="Nv" Relationship="QLBH_WinModel.FK_PhieuGiao_Nv" FromRole="PhieuGiao" ToRole="Nv" />
           <NavigationProperty Name="PhieuHd" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd" FromRole="PhieuGiao" ToRole="PhieuHd" />
-          <NavigationProperty Name="PhieuHd1" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd1" FromRole="PhieuGiao" ToRole="PhieuHd" />
           <NavigationProperty Name="PhieuGiaoChiTiets" Relationship="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao" FromRole="PhieuGiao" ToRole="PhieuGiaoChiTiet" />
         </EntityType>
         <EntityType Name="PhieuGiaoChiTiet">
@@ -626,11 +613,12 @@
           <Property Name="MaPhieuHd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaKh" Type="Int32" />
           <Property Name="MaNv" Type="Int32" />
-          <Property Name="NgayTaoHd" Type="DateTime" Precision="3" />
+          <Property Name="NgayLap" Type="DateTime" Precision="3" />
+          <Property Name="PhanTramGiam" Type="Int32" />
+          <Property Name="TienGiam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Kh" Relationship="QLBH_WinModel.FK_PhieuHd_Kh" FromRole="PhieuHd" ToRole="Kh" />
           <NavigationProperty Name="Nv" Relationship="QLBH_WinModel.FK_PhieuHd_Nv" FromRole="PhieuHd" ToRole="Nv" />
           <NavigationProperty Name="PhieuGiaos" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd" FromRole="PhieuHd" ToRole="PhieuGiao" />
-          <NavigationProperty Name="PhieuGiaos1" Relationship="QLBH_WinModel.FK_PhieuGiao_PhieuHd1" FromRole="PhieuHd" ToRole="PhieuGiao" />
           <NavigationProperty Name="PhieuHdChiTiets" Relationship="QLBH_WinModel.FK_PhieuHDChiTiet_PhieuHD" FromRole="PhieuHd" ToRole="PhieuHdChiTiet" />
         </EntityType>
         <EntityType Name="PhieuHdChiTiet">
@@ -822,19 +810,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuGiao_PhieuHd">
-          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="0..1" />
-          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PhieuHd">
-              <PropertyRef Name="MaPhieuHd" />
-            </Principal>
-            <Dependent Role="PhieuGiao">
-              <PropertyRef Name="MaPhieuHd" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PhieuGiao_PhieuHd1">
-          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="0..1" />
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuHd">
@@ -846,7 +824,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuGiaoChiTiet_PhieuGiao">
-          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuGiao" Role="PhieuGiao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="QLBH_WinModel.PhieuGiaoChiTiet" Role="PhieuGiaoChiTiet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuGiao">
@@ -870,7 +850,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PhieuHDChiTiet_PhieuHD">
-          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="1" />
+          <End Type="QLBH_WinModel.PhieuHd" Role="PhieuHd" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="QLBH_WinModel.PhieuHdChiTiet" Role="PhieuHdChiTiet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PhieuHd">
@@ -1009,7 +991,9 @@
           <EntitySetMapping Name="PhieuHds">
             <EntityTypeMapping TypeName="QLBH_WinModel.PhieuHd">
               <MappingFragment StoreEntitySet="PhieuHd">
-                <ScalarProperty Name="NgayTaoHd" ColumnName="NgayTaoHd" />
+                <ScalarProperty Name="TienGiam" ColumnName="TienGiam" />
+                <ScalarProperty Name="PhanTramGiam" ColumnName="PhanTramGiam" />
+                <ScalarProperty Name="NgayLap" ColumnName="NgayLap" />
                 <ScalarProperty Name="MaNv" ColumnName="MaNv" />
                 <ScalarProperty Name="MaKh" ColumnName="MaKh" />
                 <ScalarProperty Name="MaPhieuHd" ColumnName="MaPhieuHd" />

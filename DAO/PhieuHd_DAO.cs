@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Windows.Forms.VisualStyles;
 using DTO;
 
 namespace DAO
@@ -10,9 +12,6 @@ namespace DAO
     {
         private static PhieuHd_DAO _instance;
         private readonly QLBH_WinDBContext _db = new QLBH_WinDBContext();
-
-      
-
         public static PhieuHd_DAO Instance
         {
             get
@@ -38,11 +37,28 @@ namespace DAO
 
         public bool Laphd()
         {
+            DateTime n = DateTime.Now;
             var p = new PhieuHd();
-            p.MaNv = 1;
+            p.NgayLap = n;
             _db.PhieuHds.Add(p);
             _db.SaveChanges();
             return true;
+        }
+
+        public bool Suahd(int makh, int manv)
+        {
+            PhieuHd hd = new PhieuHd();
+            try
+            {
+                hd.MaKh = makh;
+                hd.MaNv = manv;
+                _db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         public List<PhieuHdChiTiet> Load()
         {
@@ -86,7 +102,15 @@ namespace DAO
                 db.SaveChanges();
             }
         }
-
+        public static void Update111(PhieuHd obj)
+        {
+            using (var db = new QLBH_WinDBContext())
+            {
+                db.PhieuHds.Attach(obj);
+                db.Entry(obj).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
         public void Delete(PhieuHd obj)
         {
             using (var db = new QLBH_WinDBContext())
@@ -94,6 +118,25 @@ namespace DAO
                 db.PhieuHds.Attach(obj);
                 db.PhieuHds.Remove(obj);
                 db.SaveChanges();
+            }
+        }
+
+        public bool sua(int id, int makh, int manv, int ck, string tt)
+        {
+            try
+            {
+                PhieuHd hd = new PhieuHd();
+                hd = _db.PhieuHds.Where(p => p.MaPhieuHd == id).SingleOrDefault();
+                hd.MaKh = makh;
+                hd.MaNv = manv;
+                hd.PhanTramGiam = ck;
+                hd.TienGiam = tt;
+                _db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

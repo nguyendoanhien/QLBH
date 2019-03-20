@@ -47,14 +47,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -110,7 +109,7 @@
   <ItemGroup>
     <Content Include="admin\css\admin.css" />
     <Content Include="admin\Default.aspx" />
-    <Content Include="admin\HoaDon.aspx" />
+    <Content Include="admin\DonHang.aspx" />
     <Content Include="admin\img\vertical.jpg" />
     <Content Include="admin\js\admin.js" />
     <Content Include="admin\SanPham.aspx" />
@@ -1600,12 +1599,12 @@
     <Compile Include="admin\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="admin\HoaDon.aspx.cs">
-      <DependentUpon>HoaDon.aspx</DependentUpon>
+    <Compile Include="admin\DonHang.aspx.cs">
+      <DependentUpon>DonHang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="admin\HoaDon.aspx.designer.cs">
-      <DependentUpon>HoaDon.aspx</DependentUpon>
+    <Compile Include="admin\DonHang.aspx.designer.cs">
+      <DependentUpon>DonHang.aspx</DependentUpon>
     </Compile>
     <Compile Include="admin\SanPham.aspx.cs">
       <DependentUpon>SanPham.aspx</DependentUpon>

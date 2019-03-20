@@ -7,15 +7,15 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c7c1edabdc2647558d9397bc793ccb31" Name="Diagram1" ZoomLevel="47">
         <EntityTypeShape EntityType="QLBH_WinModel.GioHang" Width="1.5" PointX="10.5" PointY="5.875" />
-        <EntityTypeShape EntityType="QLBH_WinModel.Kh" Width="1.5" PointX="3" PointY="13.5" />
+        <EntityTypeShape EntityType="QLBH_WinModel.Kh" Width="1.5" PointX="3" PointY="17.25" />
         <EntityTypeShape EntityType="QLBH_WinModel.Ncc" Width="1.5" PointX="3" PointY="3.25" />
-        <EntityTypeShape EntityType="QLBH_WinModel.Nv" Width="1.5" PointX="3" PointY="10.125" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuGiao" Width="1.5" PointX="5.25" PointY="15.375" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuGiaoChiTiet" Width="1.5" PointX="7.5" PointY="9" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuHd" Width="1.5" PointX="5.25" PointY="11.625" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuHdChiTiet" Width="1.5" PointX="7.5" PointY="2.875" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuNhap" Width="1.5" PointX="5.25" PointY="1.875" />
-        <EntityTypeShape EntityType="QLBH_WinModel.PhieuNhapChiTiet" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="QLBH_WinModel.Nv" Width="1.5" PointX="3" PointY="10" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuGiao" Width="1.5" PointX="5.25" PointY="13.375" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuGiaoChiTiet" Width="1.5" PointX="7.5" PointY="3" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuHd" Width="1.5" PointX="3" PointY="13.375" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuHdChiTiet" Width="1.5" PointX="7.5" PointY="5.875" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuNhap" Width="1.5" PointX="5.25" PointY="9.875" />
+        <EntityTypeShape EntityType="QLBH_WinModel.PhieuNhapChiTiet" Width="1.5" PointX="7.5" PointY="9" />
         <EntityTypeShape EntityType="QLBH_WinModel.Sp" Width="1.5" PointX="5.25" PointY="5.125" />
         <EntityTypeShape EntityType="QLBH_WinModel.SpLoai" Width="1.5" PointX="3" PointY="6" />
         <EntityTypeShape EntityType="QLBH_WinModel.SpNhom" Width="1.5" PointX="0.75" PointY="6.25" />
@@ -30,7 +30,6 @@
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuNhap_Nv" />
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuNhap_Nv1" />
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuGiao_PhieuHd" />
-        <AssociationConnector Association="QLBH_WinModel.FK_PhieuGiao_PhieuHd1" />
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuGiaoChiTiet_PhieuGiao" />
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuGiaoChiTiet_Sp" />
         <AssociationConnector Association="QLBH_WinModel.FK_PhieuHDChiTiet_PhieuHD" />

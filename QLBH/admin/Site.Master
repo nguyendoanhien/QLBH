@@ -13,6 +13,8 @@
 
     <link href="/admin/css/admin.css" rel="stylesheet" />
     <script src="/admin/js/admin.js"></script>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -71,7 +73,7 @@
                                     <table class="table">
                                         <tr>
                                             <td>
-                                                <a href="http://www.jquery2dotnet.com">Orders</a> <span class="label label-success">$ 320</span>
+                                                <a href="/admin/DonHang">Danh sách đơn hàng</a> <span class="label label-success">$ 320</span>
                                             </td>
                                         </tr>
                                         <tr>
